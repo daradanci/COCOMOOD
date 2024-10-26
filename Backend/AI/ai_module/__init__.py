@@ -1,1 +1,3 @@
-from .time_schedule import predict_next_value
+from .time_schedule import *
+from .recs_knn import *
+from .lin_reg import *

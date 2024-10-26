@@ -1,3 +1,6 @@
 .venv
 *.zip
 *.csv
+data
+*.xslx
+__pycache__
