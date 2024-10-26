@@ -1,4 +1,5 @@
-from typing import Optional, TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING, Callable
+
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
@@ -6,24 +7,23 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.orm import declarative_base, sessionmaker
 
+from app.base import db
 
 if TYPE_CHECKING:
-    from kts_backend.web.app import Application
-
-db = declarative_base()
+    from app.web.app import Application
 
 
 class Database:
     def __init__(self, app: "Application"):
         self.app = app
-        self._engine: Optional[AsyncEngine] = None
-        self._db: Optional[declarative_base] = None
-        self.session: Optional[Callable[[], AsyncSession]] = None
+        self._engine: AsyncEngine | None = None
+        self._db: declarative_base | None = None
+        self.session: [Callable[[], AsyncSession]] | None = None
 
     async def connect(self, *_: list, **__: dict) -> None:
         self._db = db
         self._engine = create_async_engine(
-            "postgresql+asyncpg://gameadmin:123@localhost:5432/svoyak",
+            f"postgresql+asyncpg://{self.app.config.database.user}:{self.app.config.database.password}@{self.app.config.database.host}:{self.app.config.database.port}/{self.app.config.database.database}",
             echo=True,
             future=True,
         )

@@ -23,7 +23,6 @@ from app.store import Store, setup_store
 from app.store.database.database import Database
 
 
-
 class Application(AiohttpApplication):
     config: Optional[Config] = None
     store: Optional[Store] = None
@@ -74,7 +73,7 @@ def setup_app(config_path: str) -> Application:
     setup_logging(app)
     setup_config(app, config_path)
     session_setup(app, EncryptedCookieStorage(app.config.session.key))
-    register_urls(application=app,cors=cors)
+    register_urls(application=app, cors=cors)
     setup_aiohttp_apispec(
         app, title="Svoyak bot", url="/docs/json", swagger_path="/docs"
     )

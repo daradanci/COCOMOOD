@@ -11,6 +11,3 @@ class UserModel(db):
     password = Column(String, nullable=False)
     name = Column(String, nullable=False)
     tgid = Column(Integer, nullable=True)
-
-
-    

@@ -26,9 +26,11 @@ from app.user.schemas import (
 class UserLoginView(CorsViewMixin, View):
     @request_schema(UserSchema)
     async def post(self):
-        logindata = await self.store.userAPI.get_by_login(self.data.get("login"))
+        logindata = await self.store.userAPI.get_by_login(
+            self.data.get("login")
+        )
         if logindata is None:
-                raise HTTPForbidden(reason="Неправильный логин пароль")
+            raise HTTPForbidden(reason="Неправильный логин пароль")
         if not logindata.tgid:
             tgid = None
         else:
@@ -39,7 +41,9 @@ class UserLoginView(CorsViewMixin, View):
             "name": logindata.name,
             "tg": tgid,
         }
-        if "password" in self.data and logindata.is_password_valid(self.data["password"]):
+        if "password" in self.data and logindata.is_password_valid(
+            self.data["password"]
+        ):
             session = await new_session(request=self.request)
             session["user"] = user_data
             return json_response(data=user_data)
@@ -68,7 +72,9 @@ class UserCreate(CorsViewMixin, View):
             name=self.data["name"],
         )
         if user is None:
-            raise HTTPConflict(reason="Пользователь с таким логином уже существует")
+            raise HTTPConflict(
+                reason="Пользователь с таким логином уже существует"
+            )
         return json_response(
             data={
                 "id": user.id,

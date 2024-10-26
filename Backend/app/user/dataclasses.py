@@ -9,7 +9,7 @@ class UserforRequest:
     id: int
     login: str
     name: str
-    
+
 
 @dataclass
 class UserDC:
@@ -31,4 +31,3 @@ class UserDC:
                 name=session["user"]["name"],
             )
         return None
-
