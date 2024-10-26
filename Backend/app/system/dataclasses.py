@@ -69,6 +69,7 @@ class MangaTADC:
 class MangaAuthorDC:
     manga_id: int
     author_id: int
+    role:str
 
 
 @dataclass
@@ -91,7 +92,7 @@ class ReadTimeDC:
     id: int
     user_id: int
     start: datetime
-    end: datetime
+    end: datetime|None
 
 
 @dataclass

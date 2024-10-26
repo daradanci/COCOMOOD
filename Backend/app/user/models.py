@@ -1,5 +1,5 @@
 from app.base.db import db
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 
 
@@ -11,6 +11,9 @@ class UserModel(db):
     password = Column(String, nullable=False)
     name = Column(String, nullable=False)
     tgid = Column(Integer, nullable=True)
+    registration_date = Column(DateTime, nullable=True)
+    book_plan = Column(Integer, nullable=True)
+    
 
     # ссылка на ребенка
     user_score = relationship(

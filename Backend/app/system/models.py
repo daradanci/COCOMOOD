@@ -5,7 +5,6 @@ from sqlalchemy import (
     ForeignKey,
     Float,
     DateTime,
-    UniqueConstraint,
     PrimaryKeyConstraint,
 )
 from sqlalchemy.orm import relationship
@@ -238,6 +237,7 @@ class MangaAuthorModel(db):
 
     manga_id = Column(Integer, ForeignKey("manga.id", ondelete="cascade"), nullable=False)
     author_id = Column(Integer, ForeignKey("author.id", ondelete="cascade"), nullable=False)
+    role = Column(String,nullable=True)
     __table_args__ = (PrimaryKeyConstraint(manga_id, author_id),)
     authormm = relationship(
         "AuthorModel",
@@ -251,7 +251,7 @@ class MangaAuthorModel(db):
     )
 
     def to_DC(self) -> MangaAuthorDC:
-        return MangaAuthorDC(manga_id=self.manga_id, author_id=self.author_id)
+        return MangaAuthorDC(manga_id=self.manga_id, author_id=self.author_id,role=self.role)
 
 
 class MangaGenreModel(db):
@@ -306,7 +306,7 @@ class ReadTimeModel(db):
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey("user.id", ondelete="cascade"), nullable=False)
     start = Column(DateTime, nullable=False)
-    end = Column(DateTime, nullable=False)
+    end = Column(DateTime, nullable=True)
     user_time = relationship(
         "UserModel",
         back_populates="user_time",
