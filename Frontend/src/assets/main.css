@@ -27,6 +27,8 @@ a,
     /* display: flex; */
     /* place-items: center; */
     display: block;
+    /* background-color: aqua; */
+    background-image: url('./books.png');
   }
 
   #app {

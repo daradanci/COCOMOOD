@@ -6,7 +6,8 @@
         alt="Cocomood logo"
         class="logo"
       />
-      <button class="login-btn">Войти</button>
+      <router-link :to="auth" class="login-btn">Войти</router-link>
+      <!-- <button class="login-btn" @click="">Войти</button> -->
     </header>
     <div class="registration-box">
       <h2>Регистрация</h2>
@@ -26,7 +27,7 @@
             id="password"
             v-model="password"
           />
-          <span @click="togglePasswordVisibility">👁️</span>
+          <!-- <span @click="togglePasswordVisibility">👁️</span> -->
         </div>
         <button type="submit" class="register-btn">Зарегистрироваться</button>
       </form>

@@ -26,8 +26,8 @@ export default {
             toolTipContent:
               "<span style='\"'color: {color};'\"'>{label}</span>, {y} tonnes",
             dataPoints: [
-              { label: 'Планируется', y: 1, color: '#0039A6' },
-              { label: 'Прочитано', y: 4, color: '#DE2910' },
+              { label: 'Планируется', y: 1, color: '#0AA388' },
+              { label: 'Прочитано', y: 4, color: '#fa385d' },
             ],
           },
         ],

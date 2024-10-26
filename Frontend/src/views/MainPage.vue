@@ -12,7 +12,7 @@
                 <span
                   class="superframe-text10 www.livelib.ruSourceSansProSemiBold18"
                 >
-                  <span>Войти</span>
+                  <span>Выйти</span>
                 </span>
               </div>
             </button>
@@ -65,7 +65,7 @@
                         <span
                           class="superframe-text22 www.livelib.ruSemanticItem2"
                         >
-                          4
+                          2
                         </span>
                         <span
                           class="superframe-text23 www.livelib.ruSemanticItem"
@@ -88,19 +88,16 @@
                         <span
                           class="superframe-text27 www.livelib.ruSemanticItem2"
                         >
-                          9
                         </span>
                         <span
                           class="superframe-text28 www.livelib.ruSemanticItem"
                         >
-                          <span>/ 10</span>
                         </span>
                       </div>
                       <div class="superframe-container17">
                         <span
                           class="superframe-text30 www.livelib.ruSemanticItem"
                         >
-                          <span>План чтения</span>
                         </span>
                       </div>
                     </div>
@@ -131,7 +128,7 @@
             <div class="superframe-article">
               <div class="superframe-heading2">
                 <span class="superframe-text35 www.livelib.ruSemanticHeading2">
-                  <span>Прочитанные книги – 4 из 10</span>
+                  <span>Прочитанные книги – 2 из 10</span>
                 </span>
               </div>
               <div class="superframe-background">
@@ -382,7 +379,9 @@
                       </span>
                       <span>в среднем составляет:</span>
                     </span>
-                    <span class="superframe-text77 Text">
+                    <span
+                      class="superframe-text77 www.livelib.ruSemanticItem2 Text"
+                    >
                       <span>50%</span>
                     </span>
                   </div>
@@ -661,7 +660,7 @@ export default {
 .superframe-container14 {
   top: 2px;
   left: 93px;
-  width: 122px;
+  width: 130px;
   display: flex;
   position: absolute;
   align-items: flex-start;
@@ -673,7 +672,7 @@ export default {
   height: auto;
   text-align: left;
   line-height: 22px;
-  font-size: 20px;
+  font-size: 16px;
   padding: -2px;
   margin-left: 20px;
 }
@@ -688,7 +687,7 @@ export default {
   height: auto;
   text-align: left;
   line-height: 22px;
-  margin-left: 100px;
+  margin-left: 30px;
   font-size: 20px;
 }
 .superframe-listmargin1 {
@@ -901,11 +900,14 @@ export default {
   flex-direction: column;
 }
 .superframe-text35 {
+  margin-top: 20px;
+  align-self: center;
   color: #ffffff;
   height: auto;
-  align-self: stretch;
+  /* align-self: stretch; */
   text-align: left;
   line-height: 40px;
+  font-size: 40px;
 }
 .superframe-background {
   height: 559px;
@@ -940,7 +942,7 @@ export default {
   width: 194px;
   height: 480px;
   display: flex;
-  padding: 56px 12px 0;
+  /* padding: 56px 12px 0; */
   align-items: flex-start;
   flex-shrink: 0;
   flex-direction: column;
@@ -1102,7 +1104,7 @@ export default {
   width: 194px;
   height: 422px;
   display: flex;
-  padding: 56px 12px 0;
+  /* padding: 56px 12px 0; */
   align-items: flex-start;
   flex-shrink: 0;
   flex-direction: column;
@@ -1305,7 +1307,7 @@ export default {
 }
 .superframe-text57 {
   color: #ffffff;
-  width: 573px;
+  width: 754px;
   height: auto;
   font-size: 26px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 4px 0px;
@@ -1330,7 +1332,7 @@ export default {
   text-align: left;
   line-height: 30px;
   font-size: 40px;
-  margin-left: 1px;
+  margin-left: 20px;
 }
 .superframe-container25 {
   flex: 0 0 auto;
@@ -1632,7 +1634,7 @@ export default {
   height: auto;
   text-align: right;
   line-height: 30px;
-  font-size: 30px;
+  font-size: 40px;
 }
 .superframe-spv {
   width: 16px;

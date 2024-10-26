@@ -22,7 +22,7 @@
             id="password"
             v-model="password"
           />
-          <span @click="togglePasswordVisibility">👁️</span>
+          <!-- <div class="eye" @click="togglePasswordVisibility">👁️</div> -->
         </div>
         <button type="submit" class="register-btn">Войти</button>
       </form>
@@ -123,5 +123,9 @@ span {
   right: 15px;
   top: 38px;
   font-size: 18px;
+}
+
+.eye {
+  float: right;
 }
 </style>
