@@ -4,3 +4,4 @@ env
 config_1.yaml
 alembic
 alembic.ini
+config.yaml
