@@ -6,7 +6,7 @@
         alt="Cocomood logo"
         class="logo"
       />
-      <button class="login-btn">Регистрация</button>
+      <router-link to="/reg" class="login-btn">Регистрация</router-link>
     </header>
     <div class="registration-box">
       <h2>Войти</h2>
@@ -24,7 +24,9 @@
           />
           <!-- <div class="eye" @click="togglePasswordVisibility">👁️</div> -->
         </div>
-        <button type="submit" class="register-btn">Войти</button>
+        <button type="submit" class="register-btn">
+          <router-link to="/tracker1">Войти</router-link>
+        </button>
       </form>
     </div>
   </div>
@@ -76,6 +78,7 @@ header {
   background: white;
   border: 1px solid #333;
   cursor: pointer;
+  color: #333;
 }
 
 .registration-box {

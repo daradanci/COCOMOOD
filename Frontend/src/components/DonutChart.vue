@@ -1,5 +1,5 @@
 <template>
-  <CanvasJSChart :options="options" :styles="styleOptions" />
+  <CanvasJSChart :options="options" class="cocococlass" />
 </template>
 
 <script>
@@ -40,3 +40,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.cocococlass {
+  background-color: black;
+}
+</style>

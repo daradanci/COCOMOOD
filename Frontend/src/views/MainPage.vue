@@ -4,15 +4,13 @@
       <div class="superframe-body">
         <div class="superframe-header">
           <div class="superframe-container11">
-            <button
-              class="superframe-buttonmargin"
-              onclick="window.location.href='http://localhost:5173/reg'"
-            >
+            <button class="superframe-buttonmargin">
               <div class="superframe-component2">
                 <span
                   class="superframe-text10 www.livelib.ruSourceSansProSemiBold18"
                 >
-                  <span>Выйти</span>
+                  <!-- <span>Выйти</span> -->
+                  <router-link to="/" class="exit-btn">Выйти</router-link>
                 </span>
               </div>
             </button>
@@ -1108,6 +1106,9 @@ export default {
   align-items: flex-start;
   flex-shrink: 0;
   flex-direction: column;
+}
+.exit-btn {
+  color: #2d3133;
 }
 .superframe-item5 {
   gap: -8px;

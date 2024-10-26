@@ -6,31 +6,20 @@
         alt="Cocomood logo"
         class="logo"
       />
-      <router-link to="/auth" class="login-btn">Войти</router-link>
     </header>
     <div class="registration-box">
-      <h2>Регистрация</h2>
-      <form @submit.prevent="register">
-        <div class="input-group">
-          <label for="name">Имя</label>
-          <input type="text" id="name" v-model="name" />
-        </div>
-        <div class="input-group">
-          <label for="username">Логин</label>
-          <input type="text" id="username" v-model="username" />
-        </div>
-        <div class="input-group">
-          <label for="password">Пароль</label>
-          <input
-            :type="showPassword ? 'text' : 'password'"
-            id="password"
-            v-model="password"
-          />
-        </div>
-        <button type="submit" class="register-btn">
-          <router-link to="/auth">Зарегистрироваться</router-link>
-        </button>
-      </form>
+      <h2>Добро пожаловать!</h2>
+      <!-- <form @submit.prevent="register"> -->
+      <button type="submit" class="register-btn">
+        <router-link to="/reg" class="register-btn">Регистрация</router-link>
+      </button>
+
+      <br />
+      <br />
+      <button type="submit" class="register-btn">
+        <router-link to="/auth" class="register-btn">Войти</router-link>
+      </button>
+      <!-- </form> -->
     </div>
   </div>
 </template>
@@ -50,7 +39,9 @@ export default {
       this.showPassword = !this.showPassword
     },
     register() {
+      // Реализуйте регистрацию
       alert(`Регистрация завершена для ${this.name}!`)
+      router.push('/auth')
     },
   },
 }
@@ -68,11 +59,11 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: #00a195;
 }
 
 .logo {
   height: 40px;
+  align-items: center;
 }
 
 .login-btn {
@@ -80,7 +71,6 @@ header {
   background: white;
   border: 1px solid #333;
   cursor: pointer;
-  color: #333;
 }
 
 .registration-box {
@@ -128,5 +118,9 @@ span {
   right: 15px;
   top: 38px;
   font-size: 18px;
+}
+
+.eye {
+  float: right;
 }
 </style>
