@@ -8,17 +8,19 @@ import HelloWorld from './components/HelloWorld.vue'
     <img
       alt="Vue logo"
       class="logo"
-      src="@/assets/logo.svg"
+      src="@/assets/cocobook.png"
       width="125"
       height="125"
     />
 
     <div class="wrapper">
-      <HelloWorld msg="Система подбора " />
+      <HelloWorld msg="COCOMOOD " />
 
       <nav>
         <RouterLink to="/">Главная страница</RouterLink>
         <RouterLink to="/about">О нас</RouterLink>
+        <RouterLink to="/tracker">Мой трекер</RouterLink>
+        <RouterLink to="/tracker1">Мой трекер1</RouterLink>
 
         <RouterLink to="/auth">Авторизация</RouterLink>
 
