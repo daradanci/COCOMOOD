@@ -124,9 +124,9 @@ class MangaModel(db):
 
     id = Column(Integer, primary_key=True)
     title = Column(String, unique=True, nullable=False)
-    type_id = Column(Integer, ForeignKey("type.id"), nullable=False)
+    type_id = Column(Integer, ForeignKey("type.id", ondelete="cascade"), nullable=False)
     score = Column(Float, nullable=True)
-    status_id = Column(Integer, ForeignKey("status.id"), nullable=False)
+    status_id = Column(Integer, ForeignKey("status.id", ondelete="cascade"), nullable=False)
     volumes = Column(Integer, nullable=True)
     chapters = Column(Integer, nullable=True)
     image = Column(String, nullable=False)
@@ -194,8 +194,8 @@ class MangaModel(db):
 class MangaThemeModel(db):
     __tablename__ = "mangatheme"
 
-    manga_id = Column(Integer, ForeignKey("manga.id"), nullable=False)
-    theme_id = Column(Integer, ForeignKey("theme.id"), nullable=False)
+    manga_id = Column(Integer, ForeignKey("manga.id", ondelete="cascade"), nullable=False)
+    theme_id = Column(Integer, ForeignKey("theme.id", ondelete="cascade"), nullable=False)
     __table_args__ = (PrimaryKeyConstraint(manga_id, theme_id),)
     thememm = relationship(
         "ThemeModel",
@@ -215,8 +215,8 @@ class MangaThemeModel(db):
 class MangaTAModel(db):
     __tablename__ = "mangata"
 
-    manga_id = Column(Integer, ForeignKey("manga.id"), nullable=False)
-    ta_id = Column(Integer, ForeignKey("target_audience.id"), nullable=False)
+    manga_id = Column(Integer, ForeignKey("manga.id", ondelete="cascade"), nullable=False)
+    ta_id = Column(Integer, ForeignKey("target_audience.id", ondelete="cascade"), nullable=False)
     __table_args__ = (PrimaryKeyConstraint(manga_id, ta_id),)
     tamm = relationship(
         "TAModel",
@@ -236,8 +236,8 @@ class MangaTAModel(db):
 class MangaAuthorModel(db):
     __tablename__ = "mangaauthor"
 
-    manga_id = Column(Integer, ForeignKey("manga.id"), nullable=False)
-    author_id = Column(Integer, ForeignKey("author.id"), nullable=False)
+    manga_id = Column(Integer, ForeignKey("manga.id", ondelete="cascade"), nullable=False)
+    author_id = Column(Integer, ForeignKey("author.id", ondelete="cascade"), nullable=False)
     __table_args__ = (PrimaryKeyConstraint(manga_id, author_id),)
     authormm = relationship(
         "AuthorModel",
@@ -257,8 +257,8 @@ class MangaAuthorModel(db):
 class MangaGenreModel(db):
     __tablename__ = "mangagenre"
 
-    manga_id = Column(Integer, ForeignKey("manga.id"), nullable=False)
-    genre_id = Column(Integer, ForeignKey("genre.id"), nullable=False)
+    manga_id = Column(Integer, ForeignKey("manga.id", ondelete="cascade"), nullable=False)
+    genre_id = Column(Integer, ForeignKey("genre.id", ondelete="cascade"), nullable=False)
     __table_args__ = (PrimaryKeyConstraint(manga_id, genre_id),)
     genremm = relationship(
         "GenreModel",
@@ -278,8 +278,8 @@ class MangaGenreModel(db):
 class ScoreModel(db):
     __tablename__ = "score"
 
-    manga_id = Column(Integer, ForeignKey("manga.id"), nullable=False)
-    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+    manga_id = Column(Integer, ForeignKey("manga.id", ondelete="cascade"), nullable=False)
+    user_id = Column(Integer, ForeignKey("user.id", ondelete="cascade"), nullable=False)
     rating = Column(Integer, nullable=False)
 
     __table_args__ = (PrimaryKeyConstraint(manga_id, user_id),)
@@ -304,7 +304,7 @@ class ReadTimeModel(db):
     __tablename__ = "readtime"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("user.id", ondelete="cascade"), nullable=False)
     start = Column(DateTime, nullable=False)
     end = Column(DateTime, nullable=False)
     user_time = relationship(
@@ -327,8 +327,8 @@ class ReadTimeModel(db):
 class ReadTimeMangaModel(db):
     __tablename__ = "readtimemanga"
 
-    readtime_id = Column(Integer, ForeignKey("readtime.id"), nullable=False)
-    manga_id = Column(Integer, ForeignKey("manga.id"), nullable=False)
+    readtime_id = Column(Integer, ForeignKey("readtime.id", ondelete="cascade"), nullable=False)
+    manga_id = Column(Integer, ForeignKey("manga.id", ondelete="cascade"), nullable=False)
     rating = Column(Integer, nullable=False)
 
     __table_args__ = (PrimaryKeyConstraint(manga_id, readtime_id),)

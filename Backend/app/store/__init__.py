@@ -1,10 +1,9 @@
 import typing
 from asyncio.queues import Queue
 
-from kts_backend.store.bot.api.accessor import TGApi
-from kts_backend.store.bot.bot.manager import BotApi
-from kts_backend.store.database.database import Database
-from kts_backend.store.game.accessor import GameAccessor
+from app.store.bot.api.accessor import TGApi
+from app.store.bot.bot.manager import BotApi
+from app.store.database.database import Database
 
 if typing.TYPE_CHECKING:
     from kts_backend.web.app import Application
@@ -12,14 +11,13 @@ if typing.TYPE_CHECKING:
 
 class Store:
     def __init__(self, app: "Application"):
-        from kts_backend.store.admin.accessor import AdminAccessor
+        from app.store.db_accessor.accessor import DBAccessor
 
-        self.admin = AdminAccessor(app)
+        self.accessor = DBAccessor(app)
         self.work_queue = Queue()
         self.send_queue = Queue()
         self.tgapi = TGApi(app, app.config.tgbot.token)
         self.tgbot = BotApi(app)
-        self.game = GameAccessor(app)
 
 
 def setup_store(app: "Application"):
