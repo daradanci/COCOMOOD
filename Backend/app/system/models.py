@@ -10,10 +10,22 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship
 from app.base.db import db
-from app.system.dataclasses import ThemeDC,TADC,TypeDC,AuthorDC,MangaAuthorDC,ReadTimeDC,ReadTimeMangaDC,MangaTADC,MangaThemeDC,GenreDC,MangaGenreDC,MangaDC,ScoreDC,StatusDC
-
-
-
+from app.system.dataclasses import (
+    ThemeDC,
+    TADC,
+    TypeDC,
+    AuthorDC,
+    MangaAuthorDC,
+    ReadTimeDC,
+    ReadTimeMangaDC,
+    MangaTADC,
+    MangaThemeDC,
+    GenreDC,
+    MangaGenreDC,
+    MangaDC,
+    ScoreDC,
+    StatusDC,
+)
 
 
 class ThemeModel(db):
@@ -27,12 +39,8 @@ class ThemeModel(db):
         foreign_keys="MangaThemeModel.theme_id",
     )
 
-    def to_DC(self)->ThemeDC:
-        return ThemeDC(
-            id=self.id,
-            name=self.name
-        )
-    
+    def to_DC(self) -> ThemeDC:
+        return ThemeDC(id=self.id, name=self.name)
 
 
 class TAModel(db):
@@ -45,11 +53,9 @@ class TAModel(db):
         back_populates="tamm",
         foreign_keys="MangaTAModel.ta_id",
     )
-    def to_DC(self)->TADC:
-        return TADC(
-            id=self.id,
-            name=self.name
-        )
+
+    def to_DC(self) -> TADC:
+        return TADC(id=self.id, name=self.name)
 
 
 class AuthorModel(db):
@@ -62,11 +68,9 @@ class AuthorModel(db):
         back_populates="authormm",
         foreign_keys="MangaAuthorModel.author_id",
     )
-    def to_DC(self)->AuthorDC:
-        return AuthorDC(
-            id=self.id,
-            name=self.name
-        )
+
+    def to_DC(self) -> AuthorDC:
+        return AuthorDC(id=self.id, name=self.name)
 
 
 class GenreModel(db):
@@ -79,12 +83,9 @@ class GenreModel(db):
         back_populates="genremm",
         foreign_keys="MangaGenreModel.genre_id",
     )
-    def to_DC(self)->GenreDC:
-        return GenreDC(
-            id=self.id,
-            name=self.name
-        )
-    
+
+    def to_DC(self) -> GenreDC:
+        return GenreDC(id=self.id, name=self.name)
 
 
 class TypeModel(db):
@@ -97,14 +98,9 @@ class TypeModel(db):
         back_populates="mangatype",
         foreign_keys="MangaModel.type_id",
     )
-    def to_DC(self)->TypeDC:
-        return TypeDC(
-            id=self.id,
-            name=self.name
-        )
-    
 
-
+    def to_DC(self) -> TypeDC:
+        return TypeDC(id=self.id, name=self.name)
 
 
 class StatusModel(db):
@@ -112,18 +108,15 @@ class StatusModel(db):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, unique=True, nullable=False)
-    
+
     mangastatus = relationship(
         "MangaModel",
         back_populates="mangastatus",
         foreign_keys="MangaModel.status_id",
     )
-    def to_DC(self)->StatusDC:
-        return StatusDC(
-            id=self.id,
-            name=self.name
-        )
-    
+
+    def to_DC(self) -> StatusDC:
+        return StatusDC(id=self.id, name=self.name)
 
 
 class MangaModel(db):
@@ -138,7 +131,6 @@ class MangaModel(db):
     chapters = Column(Integer, nullable=True)
     image = Column(String, nullable=False)
     link = Column(String, nullable=False)
-
 
     mangatype = relationship(
         "TypeModel",
@@ -156,19 +148,19 @@ class MangaModel(db):
         back_populates="mangatheme",
         foreign_keys="MangaThemeModel.manga_id",
     )
-    
+
     mangata = relationship(
         "MangaTAModel",
         back_populates="mangata",
         foreign_keys="MangaTAModel.manga_id",
     )
-    
+
     mangaauthor = relationship(
         "MangaAuthorModel",
         back_populates="mangaauthor",
         foreign_keys="MangaAuthorModel.manga_id",
     )
-    
+
     mangagenre = relationship(
         "MangaGenreModel",
         back_populates="mangagenre",
@@ -184,7 +176,8 @@ class MangaModel(db):
         back_populates="mangareadtime",
         foreign_keys="ReadTimeMangaModel.manga_id",
     )
-    def to_DC(self)->MangaDC:
+
+    def to_DC(self) -> MangaDC:
         return MangaDC(
             id=self.id,
             title=self.title,
@@ -194,14 +187,8 @@ class MangaModel(db):
             volumes=self.volumes,
             chapters=self.chapters,
             image=self.image,
-            link=self.link
+            link=self.link,
         )
-    
-    
-    
-
-
-
 
 
 class MangaThemeModel(db):
@@ -220,11 +207,9 @@ class MangaThemeModel(db):
         back_populates="mangatheme",
         foreign_keys="MangaThemeModel.manga_id",
     )
-    def to_DC(self)->MangaThemeDC:
-        return MangaThemeDC(
-            manga_id=self.manga_id,
-            theme_id=self.theme_id
-        )
+
+    def to_DC(self) -> MangaThemeDC:
+        return MangaThemeDC(manga_id=self.manga_id, theme_id=self.theme_id)
 
 
 class MangaTAModel(db):
@@ -243,11 +228,9 @@ class MangaTAModel(db):
         back_populates="mangata",
         foreign_keys="MangaTAModel.manga_id",
     )
-    def to_DC(self)->MangaTADC:
-        return MangaTADC(
-            manga_id=self.manga_id,
-            ta_id=self.ta_id
-        )
+
+    def to_DC(self) -> MangaTADC:
+        return MangaTADC(manga_id=self.manga_id, ta_id=self.ta_id)
 
 
 class MangaAuthorModel(db):
@@ -266,11 +249,9 @@ class MangaAuthorModel(db):
         back_populates="mangaauthor",
         foreign_keys="MangaAuthorModel.manga_id",
     )
-    def to_DC(self)->MangaAuthorDC:
-        return MangaAuthorDC(
-            manga_id=self.manga_id,author_id=self.author_id
-        )
 
+    def to_DC(self) -> MangaAuthorDC:
+        return MangaAuthorDC(manga_id=self.manga_id, author_id=self.author_id)
 
 
 class MangaGenreModel(db):
@@ -289,12 +270,9 @@ class MangaGenreModel(db):
         back_populates="mangagenre",
         foreign_keys="MangaGenreModel.manga_id",
     )
-    def to_DC(self)->MangaGenreDC:
-        return MangaGenreDC(
-            manga_id=self.manga_id,
-            genre_id=self.genre_id
-        )
 
+    def to_DC(self) -> MangaGenreDC:
+        return MangaGenreDC(manga_id=self.manga_id, genre_id=self.genre_id)
 
 
 class ScoreModel(db):
@@ -315,11 +293,10 @@ class ScoreModel(db):
         back_populates="mangascore",
         foreign_keys="ScoreModel.manga_id",
     )
-    def to_DC(self)->ScoreDC:
+
+    def to_DC(self) -> ScoreDC:
         return ScoreDC(
-            manga_id=self.manga_id,
-            user_id=self.user_id,
-            rating = self.rating
+            manga_id=self.manga_id, user_id=self.user_id, rating=self.rating
         )
 
 
@@ -340,14 +317,11 @@ class ReadTimeModel(db):
         back_populates="readtimedetails",
         foreign_keys="ReadTimeMangaModel.readtime_id",
     )
-    def to_DC(self)->ReadTimeDC:
+
+    def to_DC(self) -> ReadTimeDC:
         return ReadTimeDC(
-            id=self.id,
-            user_id=self.user_id,
-            start=self.start,
-            end=self.end
+            id=self.id, user_id=self.user_id, start=self.start, end=self.end
         )
-    
 
 
 class ReadTimeMangaModel(db):
@@ -369,12 +343,10 @@ class ReadTimeMangaModel(db):
         back_populates="readtimedetails",
         foreign_keys="ReadTimeMangaModel.readtime_id",
     )
-    def to_DC(self)->ReadTimeMangaDC:
+
+    def to_DC(self) -> ReadTimeMangaDC:
         return ReadTimeMangaDC(
             readtime_id=self.readtime_id,
             manga_id=self.manga_id,
-            rating = self.rating
+            rating=self.rating,
         )
-
-    
-
