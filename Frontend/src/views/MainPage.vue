@@ -4,7 +4,10 @@
       <div class="superframe-body">
         <div class="superframe-header">
           <div class="superframe-container11">
-            <button class="superframe-buttonmargin">
+            <button
+              class="superframe-buttonmargin"
+              onclick="window.location.href='http://localhost:5173/reg'"
+            >
               <div class="superframe-component2">
                 <span
                   class="superframe-text10 www.livelib.ruSourceSansProSemiBold18"
@@ -13,6 +16,7 @@
                 </span>
               </div>
             </button>
+
             <span
               class="superframe-text12 www.livelib.ruSourceSansProSemiBold18"
             >
@@ -30,36 +34,8 @@
           <div class="superframe-margin11">
             <div class="superframe-container12">
               <div class="superframe-component1">
-                <img
-                  alt="VectorI361"
-                  src="/external/vectori361-9fni.svg"
-                  class="superframe-vector1"
-                />
-                <img
-                  alt="VectorI361"
-                  src="/external/vectori361-o2j9.svg"
-                  class="superframe-vector2"
-                />
-                <img
-                  alt="VectorI361"
-                  src="/external/vectori361-0nyw.svg"
-                  class="superframe-vector3"
-                />
-                <img
-                  alt="VectorI361"
-                  src="/external/vectori361-mu8.svg"
-                  class="superframe-vector4"
-                />
-                <img
-                  alt="VectorI361"
-                  src="/external/vectori361-pcft.svg"
-                  class="superframe-vector5"
-                />
-                <img
-                  alt="VectorI361"
-                  src="/external/vectori361-cucs.svg"
-                  class="superframe-vector6"
-                />
+                <donut-chart />
+
                 <span class="superframe-text14 www.livelib.ruInterBold85">
                   <span>10</span>
                 </span>
@@ -70,15 +46,11 @@
               <div class="superframe-margin12">
                 <div class="superframe-container13">
                   <div class="superframe-container14">
-                    <span
-                      class="superframe-text18 www.livelib.ruSourceSansProSemiBold161"
-                    >
+                    <span class="superframe-text18">
                       <span>Ты в трекере с</span>
                     </span>
                     <div class="superframe-container15">
-                      <span
-                        class="superframe-text20 www.livelib.ruSourceSansProSemiBold161"
-                      >
+                      <span class="superframe-text20">
                         <span>26.10.2024</span>
                       </span>
                     </div>
@@ -305,7 +277,7 @@
                       Твое среднее
                       <span v-html="rawj5ir"></span>
                     </span>
-                    <span class="superframe-text59">время чтения</span>
+                    <span class="superframe-text59">время чтения </span>
                     <span>в среднем составляет:</span>
                   </span>
                   <span class="superframe-text61 Text">
@@ -350,13 +322,11 @@
                     </span>
                   </div>
                   <div class="superframe-container29">
-                    <span class="superframe-text70 www.livelib.ruSemanticLink3">
+                    <span class="superframe-text70">
                       &quot;Люди перестают мыслить, когда перестают читать&quot;
                     </span>
                     <div class="superframe-object">
-                      <span
-                        class="superframe-text71 www.livelib.ruSemanticObject"
-                      >
+                      <span class="superframe-text71">
                         <span>
                           Дени Дидро
                           <span v-html="raw6vvw"></span>
@@ -428,7 +398,9 @@
 </template>
 
 <script>
+import DonutChart from '../components/DonutChart.vue'
 export default {
+  components: { DonutChart },
   name: 'superframe',
   data() {
     return {
@@ -462,7 +434,7 @@ export default {
   align-items: center;
   flex-shrink: 0;
   flex-direction: column;
-  background-color: var(--dl-color-www.livelib.ru-white);
+  background-color: #2d3133;
 }
 .superframe-body {
   width: 1920px;
@@ -480,7 +452,7 @@ export default {
   align-self: stretch;
   align-items: center;
   flex-direction: column;
-  background-color: var(--dl-color-www.livelib.ru-white);
+  background-color: #2d3133;
 }
 .superframe-container11 {
   width: 1140px;
@@ -489,18 +461,21 @@ export default {
   position: relative;
   align-items: flex-start;
   flex-shrink: 0;
+  background-color: #16171726;
 }
 .superframe-buttonmargin {
   top: 16px;
   left: 1006.5900268554688px;
-  width: 133px;
-  height: 40px;
+  /* width: 133px; */
+  /* height: 40px; */
   display: flex;
-  padding: 0 0 0 16px;
+  /* padding: 0 0 0 16px; */
   position: absolute;
   align-items: flex-start;
   flex-shrink: 0;
   flex-direction: column;
+  background-color: #2d3133;
+  border: #2d3133;
 }
 .superframe-component2 {
   width: 117.41000366210938px;
@@ -514,7 +489,7 @@ export default {
   background-color: rgba(10, 163, 136, 1);
 }
 .superframe-text10 {
-  color: var(--dl-color-www.livelib.ru-white);
+  color: #2d3133;
   height: auto;
   text-align: center;
   line-height: 24px;
@@ -522,7 +497,7 @@ export default {
 .superframe-text12 {
   top: 23px;
   left: 195px;
-  color: rgba(0, 0, 0, 1);
+  color: #ffffff;
   width: 731px;
   height: auto;
   position: absolute;
@@ -545,7 +520,7 @@ export default {
   align-items: flex-start;
   flex-shrink: 0;
   justify-content: center;
-  background-color: #d9d9d9;
+  background-color: #2d3133;
 }
 .superframe-margin10 {
   top: 96px;
@@ -592,6 +567,7 @@ export default {
   position: relative;
   align-items: flex-start;
   flex-shrink: 0;
+  background-color: aqua;
 }
 .superframe-vector1 {
   top: 10px;
@@ -641,20 +617,26 @@ export default {
 .superframe-text14 {
   top: 71px;
   left: 93.5px;
-  color: var(--dl-color-www.livelib.ru-white);
+  color: #2d3133;
   height: auto;
   position: absolute;
   text-align: center;
   line-height: normal;
+  margin-top: 134px;
+  margin-left: 16px;
+  font-size: 26px;
 }
 .superframe-text16 {
   top: 151px;
   left: 104px;
-  color: var(--dl-color-www.livelib.ru-white);
+  color: #2d3133;
   height: auto;
   position: absolute;
   text-align: left;
   line-height: normal;
+  margin-top: 70px;
+  margin-left: 35px;
+  font-size: 20px;
 }
 .superframe-margin12 {
   top: -4px;
@@ -687,10 +669,13 @@ export default {
   flex-direction: column;
 }
 .superframe-text18 {
-  color: var(--dl-color-www.livelib.ru-white);
+  color: #ffffff;
   height: auto;
   text-align: left;
   line-height: 22px;
+  font-size: 20px;
+  padding: -2px;
+  margin-left: 20px;
 }
 .superframe-container15 {
   display: flex;
@@ -699,10 +684,12 @@ export default {
   flex-direction: column;
 }
 .superframe-text20 {
-  color: var(--dl-color-www.livelib.ru-marigoldyellow);
+  color: #ffffff;
   height: auto;
   text-align: left;
   line-height: 22px;
+  margin-left: 100px;
+  font-size: 20px;
 }
 .superframe-listmargin1 {
   display: flex;
@@ -751,22 +738,24 @@ export default {
 }
 .superframe-text22 {
   top: -0.5px;
-  color: var(--dl-color-www.livelib.ru-marigoldyellow);
+  color: #ffffff;
   width: 34px;
   height: auto;
   position: absolute;
   text-align: left;
   line-height: 40px;
+  font-size: 60px;
 }
 .superframe-text23 {
   top: 15.5px;
   left: 34.02000045776367px;
-  color: var(--dl-color-www.livelib.ru-white);
+  color: #ffffff;
   width: 40px;
   height: auto;
   position: absolute;
   text-align: left;
   line-height: 40px;
+  font-size: 20px;
 }
 .superframe-container16 {
   display: flex;
@@ -775,7 +764,7 @@ export default {
   flex-direction: column;
 }
 .superframe-text25 {
-  color: var(--dl-color-www.livelib.ru-white);
+  color: #ffffff;
   height: auto;
   align-self: stretch;
   text-align: left;
@@ -809,22 +798,24 @@ export default {
 }
 .superframe-text27 {
   top: -0.5px;
-  color: var(--dl-color-www.livelib.ru-radicalred);
+  color: #ffffff;
   width: 34px;
   height: auto;
   position: absolute;
   text-align: left;
   line-height: 40px;
+  font-size: 60px;
 }
 .superframe-text28 {
   top: 15.5px;
   left: 34.02000045776367px;
-  color: var(--dl-color-www.livelib.ru-white);
+  color: #ffffff;
   width: 40px;
   height: auto;
   position: absolute;
   text-align: left;
   line-height: 40px;
+  font-size: 20px;
 }
 .superframe-container17 {
   display: flex;
@@ -833,7 +824,7 @@ export default {
   flex-direction: column;
 }
 .superframe-text30 {
-  color: var(--dl-color-www.livelib.ru-white);
+  color: #ffffff;
   height: auto;
   align-self: stretch;
   text-align: left;
@@ -865,11 +856,12 @@ export default {
   flex-direction: column;
 }
 .superframe-text32 {
-  color: rgba(10, 163, 136, 1);
+  color: #ffffff;
   height: auto;
   align-self: stretch;
   text-align: left;
   line-height: 40px;
+  font-size: 60px;
 }
 .superframe-container19 {
   display: flex;
@@ -878,7 +870,7 @@ export default {
   flex-direction: column;
 }
 .superframe-text33 {
-  color: var(--dl-color-www.livelib.ru-white);
+  color: #ffffff;
   height: auto;
   align-self: stretch;
   text-align: left;
@@ -909,7 +901,7 @@ export default {
   flex-direction: column;
 }
 .superframe-text35 {
-  color: var(--dl-color-www.livelib.ru-white);
+  color: #ffffff;
   height: auto;
   align-self: stretch;
   text-align: left;
@@ -918,13 +910,13 @@ export default {
 .superframe-background {
   height: 559px;
   display: flex;
-  padding: 48px 0 46px;
+  padding: 4px 0 46px;
   align-self: stretch;
   align-items: center;
   flex-shrink: 0;
   border-radius: 24px;
   flex-direction: column;
-  background-color: var(--dl-color-www.livelib.ru-white);
+  background-color: #2d3133;
 }
 .superframe-listmargin2 {
   height: 451px;
@@ -962,7 +954,7 @@ export default {
   flex-shrink: 0;
   border-radius: 8px 8px 24px 24px;
   flex-direction: column;
-  background-color: var(--dl-color-www.livelib.ru-white);
+  background-color: #2d3133;
 }
 .superframe-link1 {
   display: contents;
@@ -975,7 +967,7 @@ export default {
   align-items: center;
   flex-shrink: 0;
   border-radius: 8px;
-  background-color: var(--dl-color-www.livelib.ru-white);
+  background-color: #2d3133;
 }
 .superframe-mosyan-tunsyu-magistrdyavolskogokulta-tom1jpg {
   width: 170px;
@@ -1007,7 +999,7 @@ export default {
   border-style: solid;
   border-width: 0 1px 1px;
   border-radius: 0 0 24px 24px;
-  background-color: var(--dl-color-www.livelib.ru-white);
+  background-color: #2d3133;
 }
 .superframe-component61 {
   top: 18px;
@@ -1124,7 +1116,7 @@ export default {
   flex-shrink: 0;
   border-radius: 8px 8px 24px 24px;
   flex-direction: column;
-  background-color: var(--dl-color-www.livelib.ru-white);
+  background-color: #2d3133;
 }
 .superframe-link3 {
   display: contents;
@@ -1137,7 +1129,7 @@ export default {
   align-items: center;
   flex-shrink: 0;
   border-radius: 8px;
-  background-color: var(--dl-color-www.livelib.ru-white);
+  background-color: #2d3133;
 }
 .superframe-mosyan-tunsyu-magistrdyavolskogokulta-tom4jpg {
   width: 170px;
@@ -1169,7 +1161,7 @@ export default {
   border-style: solid;
   border-width: 0 1px 1px;
   border-radius: 0 0 24px 24px;
-  background-color: var(--dl-color-www.livelib.ru-white);
+  background-color: #2d3133;
 }
 .superframe-component62 {
   top: 18px;
@@ -1291,7 +1283,7 @@ export default {
   flex-shrink: 0;
   border-radius: 24px;
   flex-direction: column;
-  background-color: var(--dl-color-www.livelib.ru-shark80);
+  background-color: #2d3133;
 }
 .superframe-margin16 {
   width: 606px;
@@ -1312,7 +1304,7 @@ export default {
   flex-shrink: 0;
 }
 .superframe-text57 {
-  color: #000000;
+  color: #ffffff;
   width: 573px;
   height: auto;
   font-size: 26px;
@@ -1337,6 +1329,8 @@ export default {
   height: auto;
   text-align: left;
   line-height: 30px;
+  font-size: 40px;
+  margin-left: 1px;
 }
 .superframe-container25 {
   flex: 0 0 auto;
@@ -1396,9 +1390,11 @@ export default {
 }
 .superframe-text64 {
   font-weight: 400;
+  color: #ffffff;
 }
 .superframe-text65 {
   font-weight: 600;
+  color: #ffffff;
 }
 .superframe-link5 {
   display: contents;
@@ -1424,7 +1420,7 @@ export default {
   flex-direction: column;
 }
 .superframe-text66 {
-  color: var(--dl-color-www.livelib.ru-white);
+  color: #2d3133;
   height: auto;
   align-self: flex-start;
   text-align: left;
@@ -1444,7 +1440,7 @@ export default {
   flex-direction: column;
 }
 .superframe-text70 {
-  color: var(--dl-color-www.livelib.ru-white);
+  color: #ffffff;
   height: auto;
   text-align: left;
   line-height: 24px;
@@ -1460,9 +1456,9 @@ export default {
 }
 .superframe-text71 {
   top: -3px;
-  color: var(--dl-color-www.livelib.ru-oslogray);
+  color: rgb(red, rgb(0, 149, 0), blue);
   width: 91px;
-  height: auto;
+  height: 20px;
   position: absolute;
   text-align: left;
   line-height: 24px;
@@ -1591,7 +1587,7 @@ export default {
   flex-shrink: 0;
   border-radius: 24px;
   flex-direction: column;
-  background-color: var(--dl-color-www.livelib.ru-shark80);
+  background-color: #2d3133;
 }
 .superframe-margin21 {
   width: 573px;
@@ -1611,7 +1607,7 @@ export default {
   flex-shrink: 0;
 }
 .superframe-text73 {
-  color: #000000;
+  color: #ffffff;
   width: 573px;
   height: auto;
   font-size: 26px;
@@ -1636,6 +1632,7 @@ export default {
   height: auto;
   text-align: right;
   line-height: 30px;
+  font-size: 30px;
 }
 .superframe-spv {
   width: 16px;

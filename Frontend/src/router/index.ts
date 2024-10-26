@@ -5,6 +5,8 @@ import AuthForm from '@/components/AuthForm.vue'
 import UserPage from '@/views/UserPage.vue'
 import ReadingProgress from '@/components/ReadingProgress.vue'
 import MainPage from '@/views/MainPage.vue'
+import Reg from '@/views/Reg.vue'
+import Auth from '@/views/Auth.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,13 +37,13 @@ const router = createRouter({
     {
       path: '/auth',
       name: 'auth',
-      component: AuthForm,
+      component: Auth,
     },
 
     {
       path: '/reg',
       name: 'reg',
-      component: RegisterForm,
+      component: Reg,
     },
 
     {

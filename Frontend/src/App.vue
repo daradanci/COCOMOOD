@@ -5,16 +5,16 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <template>
   <header>
-    <img
+    <!-- <img
       alt="Vue logo"
       class="logo"
       src="@/assets/cocobook.png"
       width="125"
       height="125"
-    />
+    /> -->
 
     <div class="wrapper">
-      <HelloWorld msg="COCOMOOD " />
+      <!-- <HelloWorld msg="COCOMOOD " />
 
       <nav>
         <RouterLink to="/">Главная страница</RouterLink>
@@ -25,7 +25,7 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/auth">Авторизация</RouterLink>
 
         <RouterLink to="/reg">Регистрация</RouterLink>
-      </nav>
+      </nav> -->
     </div>
   </header>
 
