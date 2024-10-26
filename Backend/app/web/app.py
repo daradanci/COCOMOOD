@@ -31,7 +31,7 @@ class Application(AiohttpApplication):
 
 
 class Request(AiohttpRequest):
-    user: User | None = None
+    user: UserDC | None = None
 
     @property
     def app(self) -> Application:
@@ -74,7 +74,7 @@ def setup_app(config_path: str) -> Application:
     setup_logging(app)
     setup_config(app, config_path)
     session_setup(app, EncryptedCookieStorage(app.config.session.key))
-    register_urls(app)
+    register_urls(application=app,cors=cors)
     setup_aiohttp_apispec(
         app, title="Svoyak bot", url="/docs/json", swagger_path="/docs"
     )

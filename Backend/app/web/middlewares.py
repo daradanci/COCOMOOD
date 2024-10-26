@@ -10,7 +10,7 @@ from aiohttp_session import get_session, session_middleware
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from cryptography.fernet import Fernet
 
-from app.user.model import UserDc
+from Backend.app.user.models import UserDc
 from app.web.utils import error_json_response
 
 if typing.TYPE_CHECKING:
