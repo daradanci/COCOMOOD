@@ -13,11 +13,20 @@ from app.base.db import db
 from app.map.dataclasses import NodeDC, NodetypeDC, NodeConnectionDC
 
 
+
+
+
 class ThemeModel(db):
     __tablename__ = "theme"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, unique=True, nullable=False)
+    thememm = relationship(
+        "MangaThemeModel",
+        back_populates="thememm",
+        foreign_keys="MangaThemeModel.theme_id",
+    )
+    
 
 
 class TAModel(db):
@@ -25,6 +34,11 @@ class TAModel(db):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, unique=True, nullable=False)
+    tamm = relationship(
+        "MangaTAModel",
+        back_populates="tamm",
+        foreign_keys="MangaTAModel.ta_id",
+    )
 
 
 class AuthorModel(db):
@@ -32,6 +46,11 @@ class AuthorModel(db):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, unique=True, nullable=False)
+    authormm = relationship(
+        "MangaAuthorModel",
+        back_populates="authormm",
+        foreign_keys="MangaAuthorModel.author_id",
+    )
 
 
 class GenreModel(db):
@@ -39,6 +58,12 @@ class GenreModel(db):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, unique=True, nullable=False)
+    genremm = relationship(
+        "MangaGenreModel",
+        back_populates="genremm",
+        foreign_keys="MangaGenreModel.genre_id",
+    )
+    
 
 
 class TypeModel(db):
@@ -46,6 +71,14 @@ class TypeModel(db):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, unique=True, nullable=False)
+    mangatype = relationship(
+        "MangaModel",
+        back_populates="mangatype",
+        foreign_keys="MangaModel.type_id",
+    )
+    
+
+
 
 
 class StatusModel(db):
@@ -53,6 +86,13 @@ class StatusModel(db):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, unique=True, nullable=False)
+    
+    mangastatus = relationship(
+        "MangaModel",
+        back_populates="mangastatus",
+        foreign_keys="MangaModel.status_id",
+    )
+    
 
 
 class MangaModel(db):
@@ -69,12 +109,74 @@ class MangaModel(db):
     link = Column(String, nullable=False)
 
 
+    mangatype = relationship(
+        "TypeModel",
+        back_populates="mangatype",
+        foreign_keys="MangaModel.type_id",
+    )
+    mangastatus = relationship(
+        "StatusModel",
+        back_populates="mangastatus",
+        foreign_keys="MangaModel.status_id",
+    )
+
+    mangatheme = relationship(
+        "MangaThemeModel",
+        back_populates="mangatheme",
+        foreign_keys="MangaThemeModel.manga_id",
+    )
+    
+    mangata = relationship(
+        "MangaTAModel",
+        back_populates="mangata",
+        foreign_keys="MangaTAModel.manga_id",
+    )
+    
+    mangaauthor = relationship(
+        "MangaAuthorModel",
+        back_populates="mangaauthor",
+        foreign_keys="MangaAuthorModel.manga_id",
+    )
+    
+    mangagenre = relationship(
+        "MangaGenreModel",
+        back_populates="mangagenre",
+        foreign_keys="MangaGenreModel.manga_id",
+    )
+    mangascore = relationship(
+        "ScoreModel",
+        back_populates="mangascore",
+        foreign_keys="ScoreModel.manga_id",
+    )
+    mangareadtime = relationship(
+        "ReadTimeMangaModel",
+        back_populates="mangareadtime",
+        foreign_keys="ReadTimeMangaModel.manga_id",
+    )
+    
+    
+    
+
+
+
+
+
 class MangaThemeModel(db):
     __tablename__ = "mangatheme"
 
     manga_id = Column(Integer, ForeignKey("manga.id"), nullable=False)
     theme_id = Column(Integer, ForeignKey("theme.id"), nullable=False)
     __table_args__ = (PrimaryKeyConstraint(manga_id, theme_id),)
+    thememm = relationship(
+        "ThemeModel",
+        back_populates="thememm",
+        foreign_keys="MangaThemeModel.theme_id",
+    )
+    mangatheme = relationship(
+        "MangaModel",
+        back_populates="mangatheme",
+        foreign_keys="MangaThemeModel.manga_id",
+    )
 
 
 class MangaTAModel(db):
@@ -83,6 +185,16 @@ class MangaTAModel(db):
     manga_id = Column(Integer, ForeignKey("manga.id"), nullable=False)
     ta_id = Column(Integer, ForeignKey("target_audience.id"), nullable=False)
     __table_args__ = (PrimaryKeyConstraint(manga_id, ta_id),)
+    tamm = relationship(
+        "TAModel",
+        back_populates="tamm",
+        foreign_keys="MangaTAModel.ta_id",
+    )
+    mangata = relationship(
+        "MangaModel",
+        back_populates="mangata",
+        foreign_keys="MangaTAModel.manga_id",
+    )
 
 
 class MangaAuthorModel(db):
@@ -91,6 +203,17 @@ class MangaAuthorModel(db):
     manga_id = Column(Integer, ForeignKey("manga.id"), nullable=False)
     author_id = Column(Integer, ForeignKey("author.id"), nullable=False)
     __table_args__ = (PrimaryKeyConstraint(manga_id, author_id),)
+    authormm = relationship(
+        "AuthorModel",
+        back_populates="authormm",
+        foreign_keys="MangaAuthorModel.author_id",
+    )
+    mangaauthor = relationship(
+        "MangaModel",
+        back_populates="mangaauthor",
+        foreign_keys="MangaAuthorModel.manga_id",
+    )
+
 
 
 class MangaGenreModel(db):
@@ -99,6 +222,17 @@ class MangaGenreModel(db):
     manga_id = Column(Integer, ForeignKey("manga.id"), nullable=False)
     genre_id = Column(Integer, ForeignKey("genre.id"), nullable=False)
     __table_args__ = (PrimaryKeyConstraint(manga_id, genre_id),)
+    genremm = relationship(
+        "GenreModel",
+        back_populates="genremm",
+        foreign_keys="MangaGenreModel.genre_id",
+    )
+    mangagenre = relationship(
+        "MangaModel",
+        back_populates="mangagenre",
+        foreign_keys="MangaGenreModel.manga_id",
+    )
+
 
 
 class ScoreModel(db):
@@ -109,6 +243,16 @@ class ScoreModel(db):
     rating = Column(Integer, nullable=False)
 
     __table_args__ = (PrimaryKeyConstraint(manga_id, user_id),)
+    user_score = relationship(
+        "UserModel",
+        back_populates="user_score",
+        foreign_keys="ScoreModel.user_id",
+    )
+    mangascore = relationship(
+        "MangaModel",
+        back_populates="mangascore",
+        foreign_keys="ScoreModel.manga_id",
+    )
 
 
 class ReadTimeModel(db):
@@ -118,6 +262,17 @@ class ReadTimeModel(db):
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     start = Column(DateTime, nullable=False)
     end = Column(DateTime, nullable=False)
+    user_time = relationship(
+        "UserModel",
+        back_populates="user_time",
+        foreign_keys="ReadTimeModel.user_id",
+    )
+    readtimedetails = relationship(
+        "ReadTimeMangaModel",
+        back_populates="readtimedetails",
+        foreign_keys="ReadTimeMangaModel.readtime_id",
+    )
+    
 
 
 class ReadTimeMangaModel(db):
@@ -129,106 +284,16 @@ class ReadTimeMangaModel(db):
 
     __table_args__ = (PrimaryKeyConstraint(manga_id, readtime_id),)
 
-
-class NodeModel(db):
-    __tablename__ = "node"
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String, unique=True, nullable=False)
-    shortname = Column(String, unique=True, nullable=False)
-    parent_id = Column(
-        Integer, ForeignKey("node.id", ondelete="cascade"), nullable=True
+    mangareadtime = relationship(
+        "MangaModel",
+        back_populates="mangareadtime",
+        foreign_keys="ReadTimeMangaModel.manga_id",
     )
-    creator_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    editor_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    created_time = Column(DateTime, nullable=False)
-    edited_time = Column(DateTime, nullable=False)
-    type_id = Column(
-        Integer, ForeignKey("type.id", ondelete="cascade"), nullable=False
-    )
-    description = Column(String, nullable=True)
-    x_cord = Column(Float, nullable=False)
-    y_cord = Column(Float, nullable=False)
-    z_cord = Column(Float, nullable=False)
-
-    children = relationship("NodeModel")
-    usermade = relationship(
-        "UserModel",
-        back_populates="usermade",
-        foreign_keys="NodeModel.creator_id",
-    )
-    nodetype = relationship(
-        "TypeModel", back_populates="nodetype", foreign_keys="NodeModel.type_id"
-    )
-    node1 = relationship(
-        "ConnectionModel",
-        back_populates="node1",
-        foreign_keys="ConnectionModel.node1_id",
-    )
-    node2 = relationship(
-        "ConnectionModel",
-        back_populates="node2",
-        foreign_keys="ConnectionModel.node2_id",
-    )
-    useredit = relationship(
-        "UserModel",
-        back_populates="useredit",
-        foreign_keys="NodeModel.editor_id",
+    readtimedetails = relationship(
+        "ReadTimeModel",
+        back_populates="readtimedetails",
+        foreign_keys="ReadTimeMangaModel.readtime_id",
     )
 
-    def to_dc(self) -> NodeDC:
-        return NodeDC(
-            id=self.id,
-            parent_id=self.parent_id,
-            creator_id=self.creator_id,
-            editor_id=self.editor_id,
-            created_time=self.created_time,
-            edited_time=self.edited_time,
-            type_id=self.type_id,
-            name=self.name,
-            shortname=self.shortname,
-            description=self.description,
-            x_cord=self.x_cord,
-            y_cord=self.y_cord,
-            z_cord=self.z_cord,
-        )
+    
 
-
-class ConnectionModel(db):
-    __tablename__ = "connection"
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    node1_id = Column(
-        Integer, ForeignKey("node.id", ondelete="cascade"), nullable=False
-    )
-    node2_id = Column(
-        Integer, ForeignKey("node.id", ondelete="cascade"), nullable=False
-    )
-    distance = Column(Float, nullable=False)
-    time = Column(Float, nullable=False)
-    t_weight = Column(Float, nullable=False)
-
-    __tableargs__ = (
-        UniqueConstraint("node1_id", "node2_id", name="node_combination"),
-    )
-
-    node1 = relationship(
-        "NodeModel",
-        back_populates="node1",
-        foreign_keys="ConnectionModel.node1_id",
-    )
-    node2 = relationship(
-        "NodeModel",
-        back_populates="node2",
-        foreign_keys="ConnectionModel.node2_id",
-    )
-
-    def to_dc(self) -> NodeConnectionDC:
-        return NodeConnectionDC(
-            id=self.id,
-            node1_id=self.node1_id,
-            node2_id=self.node2_id,
-            distance=self.distance,
-            time=self.time,
-            t_weight=self.t_weight,
-        )
