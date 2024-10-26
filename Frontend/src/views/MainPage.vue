@@ -63,7 +63,7 @@
                         <span
                           class="superframe-text22 www.livelib.ruSemanticItem2"
                         >
-                          2
+                          8
                         </span>
                         <span
                           class="superframe-text23 www.livelib.ruSemanticItem"
@@ -75,7 +75,7 @@
                         <span
                           class="superframe-text25 www.livelib.ruSemanticItem"
                         >
-                          <span>Прочитал</span>
+                          <span>Осталось</span>
                         </span>
                       </div>
                     </div>
@@ -106,14 +106,12 @@
                         <span
                           class="superframe-text32 www.livelib.ruSemanticItem2"
                         >
-                          1
                         </span>
                       </div>
                       <div class="superframe-container19">
                         <span
                           class="superframe-text33 www.livelib.ruSemanticItem"
                         >
-                          <span>Хочу прочитать</span>
                         </span>
                       </div>
                     </div>
@@ -696,6 +694,7 @@ export default {
   align-self: stretch;
   align-items: flex-start;
   flex-direction: column;
+  margin-right: 20px;
 }
 .superframe-list1 {
   top: 0px;

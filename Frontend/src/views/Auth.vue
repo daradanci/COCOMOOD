@@ -25,7 +25,7 @@
           <!-- <div class="eye" @click="togglePasswordVisibility">👁️</div> -->
         </div>
         <button type="submit" class="register-btn">
-          <router-link to="/tracker1">Войти</router-link>
+          <router-link to="/tracker1" class="btn_btn">Войти</router-link>
         </button>
       </form>
     </div>
@@ -130,5 +130,9 @@ span {
 
 .eye {
   float: right;
+}
+
+.btn_btn {
+  color: #ddd;
 }
 </style>

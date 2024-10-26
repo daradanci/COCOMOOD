@@ -28,7 +28,9 @@
           />
         </div>
         <button type="submit" class="register-btn">
-          <router-link to="/auth">Зарегистрироваться</router-link>
+          <router-link to="/auth" class="btn_btn"
+            >Зарегистрироваться</router-link
+          >
         </button>
       </form>
     </div>
@@ -128,5 +130,9 @@ span {
   right: 15px;
   top: 38px;
   font-size: 18px;
+}
+
+.btn_btn {
+  color: #ddd;
 }
 </style>
