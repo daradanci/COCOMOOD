@@ -8,20 +8,20 @@ from aiohttp.web import (
 from aiohttp_apispec import setup_aiohttp_apispec
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from aiohttp_session import setup as session_setup
-from kts_backend import __appname__
+import aiohttp_cors
+from app.user.dataclasses import UserDC
 
-# __version__
 from .config import Config, setup_config
 from .logger import setup_logging
-from .mw import setup_middlewares
-from .urls import register_urls
+from .middlewares import setup_middlewares
+from .routes import register_urls
 
 
 __all__ = ("Application",)
 
-from kts_backend.store import Store, setup_store
-from kts_backend.store.database.database import Database
-from ..admin.model import Admin
+from app.store import Store, setup_store
+from app.store.database.database import Database
+
 
 
 class Application(AiohttpApplication):
@@ -31,7 +31,7 @@ class Application(AiohttpApplication):
 
 
 class Request(AiohttpRequest):
-    admin: Admin | None = None
+    user: User | None = None
 
     @property
     def app(self) -> Application:
@@ -60,6 +60,16 @@ app = Application()
 
 
 def setup_app(config_path: str) -> Application:
+    cors = aiohttp_cors.setup(
+        app,
+        defaults={
+            "*": aiohttp_cors.ResourceOptions(
+                allow_credentials=True,
+                expose_headers="*",
+                allow_headers="*",
+            )
+        },
+    )
 
     setup_logging(app)
     setup_config(app, config_path)

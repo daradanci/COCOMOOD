@@ -10,7 +10,9 @@ from kts_backend.game.schemas import (
     PackSchema,
     RoundSchema,
     ThemeSchema,
-    QuestionSchema, ListGamesRequestSchema, GameResponseSchema,
+    QuestionSchema,
+    ListGamesRequestSchema,
+    GameResponseSchema,
 )
 from kts_backend.web.app import View
 from aiohttp_apispec import (
@@ -83,7 +85,7 @@ class GetPacks(AuthRequiredMixin, View):
         )
 
 
-class   RoundCreate(AuthRequiredMixin, View):
+class RoundCreate(AuthRequiredMixin, View):
     @docs(
         tags=["game"],
         summary="create round",
@@ -349,6 +351,7 @@ class QuestionGet(AuthRequiredMixin, View):
                 ]
             }
         )
+
 
 class ListGames(AuthRequiredMixin, View):
     @docs(

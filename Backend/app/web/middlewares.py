@@ -10,18 +10,18 @@ from aiohttp_session import get_session, session_middleware
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from cryptography.fernet import Fernet
 
-from kts_backend.admin.model import Admin
-from kts_backend.web.utils import error_json_response
+from app.user.model import UserDc
+from app.web.utils import error_json_response
 
 if typing.TYPE_CHECKING:
-    from kts_backend.web.app import Application, Request
+    from app.web.app import Application, Request
 
 
 @middleware
 async def auth_middleware(request: "Request", handler: callable):
     session = await get_session(request)
     if session:
-        request.admin = Admin.from_session(session=session)
+        request.admin = UserDc.from_session(session=session)
     return await handler(request)
 
 
@@ -33,6 +33,7 @@ HTTP_ERROR_CODES = {
     405: "not_implemented",
     409: "conflict",
     500: "internal_server_error",
+    503: "service_unavailable ",
 }
 
 

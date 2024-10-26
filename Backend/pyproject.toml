@@ -16,6 +16,8 @@ exclude = '''
   | build
   | dist
   | migrations
+  | env
+  | .env
 
 )/
 '''

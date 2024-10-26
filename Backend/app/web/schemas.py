@@ -10,8 +10,3 @@ class ErrorResponseSchema(Schema):
     status: fields.Str()
     message: fields.Str()
     data: fields.Str()
-
-
-class CookieSchema(Schema):
-    id: fields.Int()
-    login: fields.Str()

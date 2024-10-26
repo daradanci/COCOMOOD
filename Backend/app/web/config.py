@@ -23,9 +23,9 @@ class TGBotConfig:
 class DatabaseConfig:
     host: str = "localhost"
     port: int = 5432
-    user: str = "gameadmin"
+    user: str = "cocomooder"
     password: str = "123"
-    database: str = "gamedatabase"
+    database: str = "cocomood"
 
 
 @dataclass

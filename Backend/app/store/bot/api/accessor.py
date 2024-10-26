@@ -94,7 +94,6 @@ class TGApi(BaseAccessor):
             self.app.logger.info(f"Sender: Получил ответ в виде {data}")
             return data
 
-
     async def answerCallbackQuery(self, answer: answerCallbackQuery):
         url = self.build_url(
             method="answerCallbackQuery",
