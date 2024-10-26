@@ -7,15 +7,15 @@ sentry:
   env: dev
 
 session:
-  key: CaY5iCkYtN7DqXdiYK1BvmGrQuaSA4Tl4bEk9my0jc0=
+  key: 
 
 database:
-  host: localhost
-  port: 5432
-  user: gameadmin
-  password: 123
-  database: gamedatabase
+  host: 
+  port: 
+  user: 
+  password: 
+  database: 
 
 bot:
   tg:
-    token: 6078553823:AAF2xgT7Gqbtif7KWcREOkjJH7nzfmY3ILE
+    token:
