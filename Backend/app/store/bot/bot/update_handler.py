@@ -6,7 +6,7 @@ from typing import Optional
 import typing
 import asyncio
 
-from Backend.app.system.dataclasses import TGDC
+from app.system.dataclasses import TGDC
 
 from .dataclasses import DialogueState
 from app.store.bot.api.dataclasses import (
@@ -18,7 +18,6 @@ from app.store.bot.api.dataclasses import (
     MessageToSend,
     answerCallbackQuery,
     CallbackQuery,
-    User,
 )
 
 if typing.TYPE_CHECKING:
@@ -105,10 +104,10 @@ class Updater:
     async def handle_start_read(self, message: MessageUpdate):
         chat_id = message.message.chat.id
         chat = await self.app.store.accessor.get_chat(chat_id)
-        if chat.state == DialogueState.AUTH:
-            await self.app.store.accessor.edit_chat_state(chatid=chat_id,state=DialogueState.READING)
+        if DialogueState(chat.state) == DialogueState.AUTH:
+            await self.app.store.accessor.edit_chat_state(chatid=chat_id,state="READING")
             inline_keyboard = InlineKeyboardMarkup(
-                                    inline_keyboard=[
+                                    inline_keyboard=[[
                                         
                                             InlineKeyboardButton(
                                                 text="Закончить чтение",
@@ -121,7 +120,7 @@ class Updater:
                                                 callback_data=f"abort",
                                             )
                                            
-                                    ]
+                                    ]]
                                 )
             data = await self.handle_to_queue(
                 reply_markup=inline_keyboard,
@@ -129,13 +128,14 @@ class Updater:
                 message_thread_id=message.message.message_thread_id,
                 text="Чтение началось",
             )
-            await self.app.store.accessor.add_readtime(chat.userid)
+            ob = await self.app.store.accessor.add_readtime(chat.userid)
             sessions = await self.app.store.accessor.get_last_30_readtime(chat.userid)
-            if len(sessions.data) >2:
-                asyncio.create_task(
-                self.handle_notification(
+            if sessions:
+                if len(sessions.data) >2:
+                    asyncio.create_task(
+                    self.handle_notification(
+                    )
                 )
-            )
 
         else:
             await self.handle_to_queue(
@@ -144,7 +144,7 @@ class Updater:
                 text="Вы сейчас не в состоянии начать чтение",
             )
         
-    async def handle_read(
+    async def handle_notification(
         self,
     ):
         pass
@@ -155,8 +155,8 @@ class Updater:
     ):
         chat_id = message.message.chat.id
         chat = await self.app.store.accessor.get_chat(chat_id)
-        if chat.state == DialogueState.AUTH:
-            await self.app.store.accessor.edit_chat_state(chatid=chat_id,state=DialogueState.SCORE)
+        if DialogueState(chat.state) == DialogueState.AUTH:
+            await self.app.store.accessor.edit_chat_state(chatid=chat_id,state="SCORE")
             await self.handle_to_queue(
                 chat_id=chat_id,
                 message_thread_id=message.message.message_thread_id,
@@ -184,7 +184,7 @@ class Updater:
         callback_query = callback.callback_query
         chat_id = callback_query.message.chat.id
         chat = await self.app.store.accessor.get_chat(chat_id)
-        if chat.state == DialogueState.READING:
+        if DialogueState(chat.state) == DialogueState.READING:
             callback_data = callback_query.data
             if callback_data == "end":
                 await self.handle_endread(chat=chat, callback=callback_query)
@@ -201,7 +201,7 @@ class Updater:
     async def handle_endread(self, chat: TGDC, callback: CallbackQuery):
         readtime = await self.app.store.accessor.get_last_readtime(chat.userid)
         await self.app.store.accessor.add_readtime_end(readtime.id)
-        await self.app.store.accessor.edit_chat_state(chatid=chat.chatid,state=DialogueState.REVIEW)
+        await self.app.store.accessor.edit_chat_state(chatid=chat.chatid,state="REVIEW")
         await self.handle_to_queue(
                     chat_id=chat.chatid,
                     message_thread_id=callback.message.message_thread_id,
@@ -212,7 +212,7 @@ class Updater:
     async def handle_abort(self, chat: TGDC, callback: CallbackQuery):
         readtime = await self.app.store.accessor.get_last_readtime(chat.userid)
         await self.app.store.accessor.del_readtime(readtime.id)
-        await self.app.store.accessor.edit_chat_state(chatid=chat.chatid,state=DialogueState.AUTH)
+        await self.app.store.accessor.edit_chat_state(chatid=chat.chatid,state="AUTH")
         await self.handle_to_queue(
                     chat_id=chat.chatid,
                     message_thread_id=callback.message.message_thread_id,
@@ -222,14 +222,14 @@ class Updater:
     async def handle_text_message(self, message: MessageUpdate):
         chat_id = message.message.chat.id
         chat = await self.app.store.accessor.get_chat(chat_id)
-        if chat.state == DialogueState.INIT:
-            await self.handle_login(chat=chat, callback=message)
-        
-        elif chat.state == DialogueState.REVIEW:
-            await self.handle_review(chat=chat, callback=message)
+
+        if DialogueState(chat.state) == DialogueState.INIT:
+            await self.handle_login(chat=chat, message=message)
+        elif DialogueState(chat.state) == DialogueState.REVIEW:
+            await self.handle_review(chat=chat, message=message)
             
-        elif chat.state == DialogueState.SCORE:
-            await self.handle_score(chat=chat, callback=message)
+        elif DialogueState(chat.state) == DialogueState.SCORE:
+            await self.handle_score(chat=chat, message=message)
         else:
             await self.handle_to_queue(
                 chat_id=chat_id,
@@ -239,8 +239,10 @@ class Updater:
     
 
     async def handle_login(self, chat: TGDC, message: MessageUpdate):
+
         text = message.message.text
         credentials = text.split('|')
+        
         if len(credentials)==2:
             logindata = await self.app.store.accessor.get_by_login(credentials[0])
             if logindata is None:
@@ -257,7 +259,7 @@ class Updater:
                         text=f'''Успешная авторизация {logindata.name}''',
                     )
                     await self.app.store.accessor.add_chat_user(chatid=chat.chatid,userid=logindata.id)
-                    await self.app.store.accessor.edit_chat_state(chatid=chat.chatid,state=DialogueState.AUTH)
+                    await self.app.store.accessor.edit_chat_state(chatid=chat.chatid,state="AUTH")
         else:
             await self.handle_to_queue(
                         chat_id=chat.chatid,
@@ -283,7 +285,7 @@ class Updater:
                     )
             
         #машинка
-        await self.app.store.accessor.edit_chat_state(chatid=chat.chatid,state=DialogueState.AUTH)
+        await self.app.store.accessor.edit_chat_state(chatid=chat.chatid,state="AUTH")
 
 
     async def handle_score(self, chat: TGDC, message: MessageUpdate):
@@ -298,7 +300,7 @@ class Updater:
                         message_thread_id=message.message.message_thread_id,
                         text=f'''Ненаход  {current[0]}''',
                     )
-        await self.app.store.accessor.edit_chat_state(chatid=chat.chatid,state=DialogueState.AUTH)
+        await self.app.store.accessor.edit_chat_state(chatid=chat.chatid,state="AUTH")
             
     async def handle_to_queue(
         self,

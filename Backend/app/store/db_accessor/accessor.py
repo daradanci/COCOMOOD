@@ -351,6 +351,7 @@ class DBAccessor(BaseAccessor):
         try:
             async with self.app.database.session() as session:
                 rt = ReadTimeModel(user_id=user_id, start=datetime.now())
+                print(datetime)
                 session.add(rt)
                 await session.commit()
                 return rt.to_DC()
@@ -381,7 +382,7 @@ class DBAccessor(BaseAccessor):
                 query = (
                     select(ReadTimeModel)
                     .where(ReadTimeModel.user_id == user_id)
-                    .desc()
+                    .order_by(ReadTimeModel.start.desc())
                     .limit(1)
                 )
                 res = await session.scalars(query)
@@ -452,7 +453,7 @@ class DBAccessor(BaseAccessor):
                 query = (
                     select(ReadTimeModel)
                     .where(ReadTimeModel.user_id == user_id)
-                    .desc()
+                    .order_by(ReadTimeModel.start.desc())
                     .limit(30)
                 )
                 res = await session.scalars(query)
@@ -785,6 +786,7 @@ class DBAccessor(BaseAccessor):
     
     async def edit_chat_state(self, chatid: int,state:str) -> None:
         try:
+
             async with self.app.database.session() as session:
                 query = (
                     update(TgModel)
