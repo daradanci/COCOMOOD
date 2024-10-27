@@ -1,4 +1,4 @@
-<template>
+<template v-if="isAuthenticated">
   <div class="superframe-container10">
     <div class="superframe-superframe">
       <div class="superframe-body">
@@ -311,6 +311,7 @@
 <script>
 import BookList from '../components/BookList.vue'
 import DonutChart from '../components/DonutChart.vue'
+import { useMainStore } from '@/stores/store'
 export default {
   components: { DonutChart, BookList },
   name: 'superframe',
@@ -343,6 +344,14 @@ export default {
   },
   metaInfo: {
     title: 'exported project',
+  },
+  setup() {
+    const mainStore = useMainStore()
+    const isAuthenticated = mainStore.isAuthenticated // для геттера
+    return {
+      isAuthenticated,
+      mainStore,
+    }
   },
 }
 </script>
@@ -1042,7 +1051,7 @@ export default {
   flex-direction: column;
 }
 .exit-btn {
-  color: #2d3133;
+  color: #ffffff;
 }
 .superframe-item5 {
   gap: -8px;

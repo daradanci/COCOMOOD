@@ -22,6 +22,7 @@ const router = createRouter({
       name: 'tracker1',
       component: MainPage,
     },
+
     {
       path: '/auth',
       name: 'auth',

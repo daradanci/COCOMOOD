@@ -20,5 +20,14 @@ app.use(CanvasJSChart)
 app.use(createPinia())
 
 app.use(pinia)
+
+import { useMainStore } from '@/stores/store'
+const mainStore = useMainStore()
+router.beforeEach((to, from, next) => {
+  if (to.name === 'tracker1' && !mainStore.isAuthenticated)
+    next({ name: 'welcome' })
+  else next()
+})
+
 app.use(router)
 app.mount('#app')

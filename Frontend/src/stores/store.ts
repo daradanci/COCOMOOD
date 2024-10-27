@@ -57,12 +57,33 @@ export const useMainStore = defineStore({
     getBooks1: state => state.books1,
   },
   actions: {
-    login(userData: { username: string; email: string }) {
-      this.user = userData
-      this.isAuthenticated = true
+    register(userData: { username: string; email: string; password: string }) {
+      // как-то зарегаться что ли
+    },
+    login(userData: { username: string; password: string }) {
+      // this.user = userData
+      const rightUserData = {
+        username: 'dante13',
+        password: '123456',
+      }
+      if (userData === rightUserData) {
+        this.isAuthenticated = true
+      } else {
+        this.isAuthenticated = false
+      }
     },
     logout() {
-      this.user = { username: '', email: '' }
+      this.user = {
+        id: 0,
+        login: '',
+        name: '',
+        registration_date: '',
+        book_plan: '',
+        read_amount: 0,
+        average_interest: 0,
+        average_readtime: 0,
+        password: '',
+      }
       this.isAuthenticated = false
     },
     readBook(bookData: { book_name: string; author: string; rate: number }) {
