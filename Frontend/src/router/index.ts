@@ -8,6 +8,7 @@ import MainPage from '@/views/MainPage.vue'
 import Reg from '@/views/Reg.vue'
 import Auth from '@/views/Auth.vue'
 import Welcome from '@/views/Welcome.vue'
+import BookList from '@/components/BookList.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/me',
       name: 'me',
       component: UserPage,
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: BookList,
     },
   ],
 })

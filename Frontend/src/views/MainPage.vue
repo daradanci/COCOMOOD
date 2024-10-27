@@ -55,7 +55,7 @@
                   </div>
                 </div>
               </div>
-              <div class="superframe-listmargin1">
+              <!-- <div class="superframe-listmargin1">
                 <div class="superframe-list1">
                   <div class="superframe-itemmargin1">
                     <div class="superframe-item1">
@@ -117,9 +117,10 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
+
           <div class="superframe-articlemargin">
             <div class="superframe-article">
               <div class="superframe-heading2">
@@ -127,136 +128,27 @@
                   <span>Прочитанные книги – 2 из 10</span>
                 </span>
               </div>
-              <div class="superframe-background">
-                <div class="superframe-listmargin2">
-                  <div class="superframe-list2">
-                    <div class="superframe-itemmargin4">
-                      <div class="superframe-item4">
-                        <a
-                          href="https://www.livelib.ru/book/1003989922-magistr-dyavolskogo-kulta-tom-1-mosyan-tunsyu"
-                          target="_blank"
-                          rel="noreferrer noopener"
-                          class="superframe-link1"
-                        >
-                          <div class="superframe-link2">
-                            <div
-                              class="superframe-mosyan-tunsyu-magistrdyavolskogokulta-tom1jpg"
-                            ></div>
-                          </div>
-                        </a>
-                        <div class="superframe-margin13">
-                          <div class="superframe-background-border1">
-                            <div class="superframe-component61">
-                              <span
-                                class="superframe-text37 www.livelib.ruSourceSansProSemiBold16"
-                              >
-                                <span>Магистр</span>
-                                <br />
-                                <span>дьявольского…</span>
-                                <br />
-                                <span>культа. Том 1</span>
-                              </span>
-                            </div>
-                            <div class="superframe-linkmargin1">
-                              <div class="superframe-component31">
-                                <span
-                                  class="superframe-text43 www.livelib.ruSourceSansProRegular142"
-                                >
-                                  <span>Мосян Тунсю</span>
-                                </span>
-                              </div>
-                            </div>
-                            <div class="superframe-component81">
-                              <img
-                                alt="BackgroundShadowI361"
-                                src="/external/backgroundshadowi361-s0k-200w.png"
-                                class="superframe-background-shadow1"
-                              />
-                            </div>
-                            <div class="superframe-container20">
-                              <div class="superframe-container21">
-                                <span
-                                  class="superframe-text45 www.livelib.ruSemanticItem1"
-                                >
-                                  <span>4,8</span>
-                                </span>
-                              </div>
-                              <div class="superframe-image1">
-                                <img
-                                  alt="SVGsprite13svgfill3617"
-                                  src="/external/svgsprite13svgfill3617-7uz.svg"
-                                  class="superframe-sv-gsprite13svgfill1"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="superframe-itemmargin5">
-                      <div class="superframe-item5">
-                        <a
-                          href="https://www.livelib.ru/book/1004160469-magistr-dyavolskogo-kulta-tom-4-mosyan-tunsyu"
-                          target="_blank"
-                          rel="noreferrer noopener"
-                          class="superframe-link3"
-                        >
-                          <div class="superframe-link4">
-                            <div
-                              class="superframe-mosyan-tunsyu-magistrdyavolskogokulta-tom4jpg"
-                            ></div>
-                          </div>
-                        </a>
-                        <div class="superframe-margin14">
-                          <div class="superframe-background-border2">
-                            <div class="superframe-component62">
-                              <span
-                                class="superframe-text47 www.livelib.ruSourceSansProSemiBold16"
-                              >
-                                <span>Магистр</span>
-                                <br />
-                                <span>дьявольского…</span>
-                                <br />
-                                <span>культа. Том 4</span>
-                              </span>
-                            </div>
-                            <div class="superframe-linkmargin2">
-                              <div class="superframe-component32">
-                                <span
-                                  class="superframe-text53 www.livelib.ruSourceSansProRegular142"
-                                >
-                                  <span>Мосян Тунсю</span>
-                                </span>
-                              </div>
-                            </div>
-                            <div class="superframe-component82">
-                              <img
-                                alt="BackgroundShadowI361"
-                                src="/external/backgroundshadowi361-tvhb-200w.png"
-                                class="superframe-background-shadow2"
-                              />
-                            </div>
-                            <div class="superframe-container22">
-                              <div class="superframe-container23">
-                                <span
-                                  class="superframe-text55 www.livelib.ruSemanticItem1"
-                                >
-                                  <span>4,7</span>
-                                </span>
-                              </div>
-                              <div class="superframe-image2">
-                                <img
-                                  alt="SVGsprite13svgfill3619"
-                                  src="/external/svgsprite13svgfill3619-1j2f.svg"
-                                  class="superframe-sv-gsprite13svgfill2"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+
+              <book-list></book-list>
+            </div>
+          </div>
+          <div class="superframe-margin20">
+            <div class="superframe-overlay2">
+              <div class="superframe-margin21">
+                <div class="superframe-container31">
+                  <span class="superframe-text73">
+                    <span class="superframe-text74">
+                      Твоя
+                      <span v-html="raw1a25"></span>
+                    </span>
+                    <span class="superframe-text75"> заинтересованность </span>
+                    <span>в среднем составляет:</span>
+                  </span>
+                  <span
+                    class="superframe-text77 www.livelib.ruSemanticItem2 Text"
+                  >
+                    <span>50%</span>
+                  </span>
                 </div>
               </div>
             </div>
@@ -280,6 +172,53 @@
               </div>
             </div>
           </div>
+
+          <div class="superframe-margin15-1">
+            <div class="superframe-overlay1">
+              <div class="superframe-margin16">
+                <div class="superframe-container24">
+                  <span class="superframe-text57">
+                    <span class="superframe-text58">
+                      За последнюю
+                      <span v-html="rawj5ir"></span>
+                    </span>
+                    <span class="superframe-text59">неделю </span>
+                    <span>ты притрагивался к книгам: </span>
+                  </span>
+                  <span class="superframe-text61 Text">
+                    <span>2</span>
+
+                    <span
+                      class="superframe-text57"
+                      style="color: aliceblue; font-size: 26px"
+                      >/7 дней</span
+                    >
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="superframe-margin15-2">
+            <div class="superframe-overlay1">
+              <div class="superframe-margin16">
+                <div class="superframe-container24">
+                  <span class="superframe-text57">
+                    <span class="superframe-text59">Осталось: </span>
+                    <span class="superframe-text61 Text">
+                      <span>8</span>
+                    </span>
+                    <span>/10 книг и </span>
+                    <span class="superframe-text61 Text">
+                      <span>364</span>
+                    </span>
+                    <span>/365 дней</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="superframe-container25">
             <div class="superframe-container26">
               <div class="superframe-margin17">
@@ -361,29 +300,6 @@
                 </div>
               </div>
             </div>
-            <div class="superframe-margin20">
-              <div class="superframe-overlay2">
-                <div class="superframe-margin21">
-                  <div class="superframe-container31">
-                    <span class="superframe-text73">
-                      <span class="superframe-text74">
-                        Твоя
-                        <span v-html="raw1a25"></span>
-                      </span>
-                      <span class="superframe-text75">
-                        заинтересованность
-                      </span>
-                      <span>в среднем составляет:</span>
-                    </span>
-                    <span
-                      class="superframe-text77 www.livelib.ruSemanticItem2 Text"
-                    >
-                      <span>50%</span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         <div class="superframe-spv"></div>
@@ -393,9 +309,10 @@
 </template>
 
 <script>
+import BookList from '../components/BookList.vue'
 import DonutChart from '../components/DonutChart.vue'
 export default {
-  components: { DonutChart },
+  components: { DonutChart, BookList },
   name: 'superframe',
   data() {
     return {
@@ -404,6 +321,24 @@ export default {
       rawdoc1: ' ',
       raw6vvw: ' ',
       raw1a25: ' ',
+      books: [
+        {
+          id: 1,
+          title: 'Магистр дьявольского культа. Том 1',
+          author: 'Мосян Тунсю',
+          rating: '4.8',
+          image: '/path/to/image1.jpg',
+          link: 'https://www.livelib.ru/book/1003989922-magistr-dyavolskogo-kulta-tom-1-mosyan-tunsyu',
+        },
+        {
+          id: 2,
+          title: 'Замминистр',
+          author: 'Тунсю Монсян',
+          rating: '4.7',
+          image: '/path/to/image2.jpg',
+          link: 'https://www.livelib.ru/book/1004160469-magistr-dyavolskogo-kulta-tom-4-mosyan-tunsyu',
+        },
+      ],
     }
   },
   metaInfo: {
@@ -1004,7 +939,7 @@ export default {
   top: 18px;
   left: 16px;
   width: 138px;
-  height: 32px;
+  height: 320px;
   display: flex;
   overflow: hidden;
   position: absolute;
@@ -1263,8 +1198,30 @@ export default {
   height: 24px;
 }
 .superframe-margin15 {
-  top: 712px;
-  right: 8px;
+  top: 676px;
+  right: 4px;
+  width: 752px;
+  display: flex;
+  padding: 0 0 39px;
+  position: absolute;
+  align-items: flex-end;
+  flex-shrink: 0;
+  flex-direction: column;
+}
+.superframe-margin15-1 {
+  top: 740px;
+  right: 4px;
+  width: 752px;
+  display: flex;
+  padding: 0 0 39px;
+  position: absolute;
+  align-items: flex-end;
+  flex-shrink: 0;
+  flex-direction: column;
+}
+.superframe-margin15-2 {
+  top: 900px;
+  right: 4px;
   width: 752px;
   display: flex;
   padding: 0 0 39px;
@@ -1279,7 +1236,7 @@ export default {
   width: 752px;
   height: 91px;
   display: flex;
-  padding: 28px 28px 28px 22px;
+  padding: 0 28px 28px 22px;
   position: absolute;
   align-items: flex-start;
   flex-shrink: 0;
@@ -1583,7 +1540,7 @@ export default {
   width: 752px;
   height: 91px;
   display: flex;
-  padding: 28px 28px 28px 22px;
+  padding: 0 28px 28px 22px;
   position: absolute;
   align-items: flex-start;
   flex-shrink: 0;

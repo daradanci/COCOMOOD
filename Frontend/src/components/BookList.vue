@@ -1,12 +1,20 @@
-<!-- components/BookList.vue -->
 <template>
-  <div class="book-list">
-    <h2>Прочитанные книги — {{ booksRead }} из {{ totalBooks }}</h2>
-    <div class="books">
-      <div class="book" v-for="book in books" :key="book.id">
-        <img :src="book.cover" alt="Обложка книги" />
-        <p>{{ book.title }}</p>
-        <span>{{ book.rating }}</span>
+  <div class="container mt-4">
+    <div class="row flex-nowrap overflow-auto">
+      <div
+        v-for="(book, index) in books"
+        :key="index"
+        class="col-6 col-md-4 col-lg-3 mb-4 d-inline-block"
+      >
+        <div class="card h-100 text-center">
+          <img :src="book.image" class="card-img-top" alt="Book Cover" />
+          <div class="card-body">
+            <h5 class="card-title">{{ book.title }}</h5>
+            <p class="card-text">{{ book.author }}</p>
+            <p class="card-text">{{ book.rating }}/10</p>
+            <button class="btn btn-success">Подробнее</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -14,33 +22,49 @@
 
 <script>
 export default {
-  props: {
-    books: Array,
-    booksRead: Number,
-    totalBooks: Number,
+  data() {
+    return {
+      books: [
+        {
+          image: 'path/to/image1.jpg', // Замените на реальный путь к изображению
+          title: 'Том 1',
+          author: 'Мосян Тунсю',
+          rating: 8,
+        },
+        {
+          image: 'path/to/image2.jpg', // Замените на реальный путь к изображению
+          title: 'Том 4',
+          author: 'Мосян Тунсю',
+          rating: 9,
+        },
+        // Добавьте другие книги, если нужно
+      ],
+    }
   },
 }
 </script>
 
-<style scoped>
-.book-list {
-  margin-top: 20px;
+<style>
+.container {
+  max-width: 1200px;
 }
-.books {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+
+.row.flex-nowrap {
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  padding-bottom: 1rem;
 }
-.book {
-  width: 150px;
-  text-align: center;
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 10px;
+
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-img {
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card-text {
+  color: #6c757d;
 }
 </style>
