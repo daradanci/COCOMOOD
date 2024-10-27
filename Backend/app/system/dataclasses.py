@@ -122,3 +122,39 @@ class ReadTimeDetailsDC:
 @dataclass
 class ReadTimeDetailsListDC:
     data: list[ReadTimeDetailsDC] | None
+
+
+@dataclass
+class MangaInfoDC:
+
+    id: int
+    title: str
+    score: float | None
+    volumes: int | None
+    chapters: int | None
+    image: str
+    link: str
+
+    type:TypeDC
+    status:StatusDC
+    theme:list[MangaThemeDC]|None
+    ta:list[MangaTADC]|None
+    author:list[MangaAuthorDC]|None
+    genre:list[MangaGenreDC]|None
+
+@dataclass
+class ThemeListDC:
+    data: list[ThemeDC]
+
+
+@dataclass
+class TAListDC:
+    data: list[TADC]
+
+@dataclass
+class AuthorListDC:
+    data: list[AuthorDC]
+    
+@dataclass
+class GenreListDC:
+    data: list[GenreDC]
