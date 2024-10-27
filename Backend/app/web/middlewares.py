@@ -10,7 +10,7 @@ from aiohttp_session import get_session, session_middleware
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from cryptography.fernet import Fernet
 
-from Backend.app.user.models import UserDc
+from app.user.dataclasses import UserDC
 from app.web.utils import error_json_response
 
 if typing.TYPE_CHECKING:
@@ -21,7 +21,7 @@ if typing.TYPE_CHECKING:
 async def auth_middleware(request: "Request", handler: callable):
     session = await get_session(request)
     if session:
-        request.admin = UserDc.from_session(session=session)
+        request.user = UserDC.from_session(session=session)
     return await handler(request)
 
 

@@ -14,10 +14,9 @@ from app.web.app import View
 from app.web.mixin import AuthRequiredMixin
 from app.web.utils import json_response
 
-from app.user.schemas import (
+from app.user.schema import (
     UserSchema,
     NewUserSchema,
-    UpdUserSchema,
 )
 
 
@@ -27,10 +26,10 @@ class UserLoginView(CorsViewMixin, View):
         logindata = await self.store.accessor.get_by_login(self.data.get("login"))
         if logindata is None:
             raise HTTPForbidden(reason="Неправильный логин пароль")
-        if not logindata.tgid:
+        if not logindata.tg:
             tgid = None
         else:
-            tgid = logindata.tgid
+            tgid = logindata.tg
         user_data = {
             "id": logindata.id,
             "login": logindata.login,
@@ -93,21 +92,3 @@ class UserCreate(CorsViewMixin, View):
                 "name": user.name,
             }
         )
-
-    @request_schema(UpdUserSchema)
-    async def put(self):
-        if self.request.user is not None:
-            user = await self.store.accessor.update_userinfo(
-                self.request.user.id,
-                name=self.data.get("name"),
-            )
-            if user is None:
-                raise HTTPConflict(reason="Ошибка смены данных")
-            return json_response(
-                data={
-                    "id": user.id,
-                    "login": user.login,
-                    "name": user.name,
-                }
-            )
-        raise HTTPUnauthorized(reason="Ошибка проверки авторизации")

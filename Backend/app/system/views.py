@@ -10,18 +10,11 @@ from aiohttp_apispec import (
 )
 
 from aiohttp_cors import CorsViewMixin
-from Backend.app.web.mixin import AuthRequiredMixin
+from app.web.mixin import AuthRequiredMixin
 from app.web.app import View
 from app.web.utils import json_response
 
-from app.system.schemas import (
-    NewConnSchema,
-    NewNodeSchema,
-    NewTypeSchema,
-    UpdConnSchema,
-    UpdNodeSchema,
-    UpdTypeSchema,
-)
+
 
 
 class ReadStatView(AuthRequiredMixin, CorsViewMixin, View):

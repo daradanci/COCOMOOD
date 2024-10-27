@@ -1,8 +1,8 @@
 import typing
 from asyncio.queues import Queue
 
-from app.store.bot.api.accessor import TGApi
-from app.store.bot.bot.manager import BotApi
+# from app.store.bot.api.accessor import TGApi
+# from app.store.bot.bot.manager import BotApi
 from app.store.database.database import Database
 
 if typing.TYPE_CHECKING:
@@ -16,8 +16,8 @@ class Store:
         self.accessor = DBAccessor(app)
         self.work_queue = Queue()
         self.send_queue = Queue()
-        self.tgapi = TGApi(app, app.config.tgbot.token)
-        self.tgbot = BotApi(app)
+        # self.tgapi = TGApi(app, app.config.tgbot.token)
+        # self.tgbot = BotApi(app)
 
 
 def setup_store(app: "Application"):

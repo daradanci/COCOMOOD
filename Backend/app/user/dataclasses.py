@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from hashlib import sha256
-import datetime
+from datetime import datetime
 
 from aiohttp_session import Session
 

@@ -68,9 +68,9 @@ class DBAccessor(BaseAccessor):
                     id=user.id,
                     login=user.login,
                     name=user.name,
-                    tg=user.tg,
+                    tg=user.tgid,
                     password=user.password,
-                    registration_date=user.reregistration_date,
+                    registration_date=user.registration_date,
                     book_plan=user.book_plan,
                 )
             return None
@@ -85,9 +85,9 @@ class DBAccessor(BaseAccessor):
                     id=user.id,
                     login=user.login,
                     name=user.name,
-                    tg=user.tg,
+                    tg=user.tgid,
                     password=user.password,
-                    registration_date=user.reregistration_date,
+                    registration_date=user.registration_date,
                     book_plan=user.book_plan,
                 )
             return None
@@ -102,9 +102,9 @@ class DBAccessor(BaseAccessor):
                     id=user.id,
                     login=user.login,
                     name=user.name,
-                    tg=user.tg,
+                    tg=user.tgid,
                     password=user.password,
-                    registration_date=user.reregistration_date,
+                    registration_date=user.registration_date,
                     book_plan=user.book_plan,
                 )
             return None
