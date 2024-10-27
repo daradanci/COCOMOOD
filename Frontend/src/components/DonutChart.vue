@@ -24,7 +24,7 @@ export default {
             indexLabel: '{label} {y}(#percent%)',
             yValueFormatString: '#,##0K',
             toolTipContent:
-              "<span style='\"'color: {color};'\"'>{label}</span>, {y} tonnes",
+              "<span style='\"'color: {color};'\"'>{label}</span>, {y}ниг",
             dataPoints: [
               { label: 'Планируется', y: 1, color: '#0AA388' },
               { label: 'Прочитано', y: 4, color: '#fa385d' },

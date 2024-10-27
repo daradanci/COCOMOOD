@@ -66,7 +66,8 @@ export default {
         login: this.login,
         password: this.password,
       })
-      alert(`Регистрация завершена для ${this.name}!`)
+      window.alert(`Регистрация завершена для ${this.name}!`)
+      // alert(`Регистрация завершена для ${this.name}!`)
     },
   },
 }

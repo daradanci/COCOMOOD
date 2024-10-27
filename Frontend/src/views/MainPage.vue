@@ -49,7 +49,7 @@
                     </span>
                     <div class="superframe-container15">
                       <span class="superframe-text20">
-                        <span>26.10.2024</span>
+                        <span>27.10.2024</span>
                       </span>
                     </div>
                   </div>
@@ -271,24 +271,21 @@
               <div class="superframe-margin19">
                 <div class="superframe-container30">
                   <div class="superframe-filled-black">
-                    <div class="superframe-artboard">
-                      <img
-                        alt="Path4520"
-                        src="/external/path4520-8xx.svg"
-                        class="superframe-path"
-                      />
-                    </div>
+                    <a
+                      href="https://stackoverflow.com/questions/41168307/vue-js-2-0-router-link-in-a-div-component"
+                      target="”_blank”"
+                    >
+                      <div class="superframe-artboard">
+                        <img
+                          alt="Path4520"
+                          src="/external/path4520-8xx.svg"
+                          class="superframe-path"
+                        />
+                      </div>
+                    </a>
                   </div>
-                  <div class="superframe-component41">
-                    <div class="superframe-image3">
-                      <img
-                        alt="SVGsprite18svgfillI361"
-                        src="/external/svgsprite18svgfilli361-7ubb.svg"
-                        class="superframe-sv-gsprite18svgfill1"
-                      />
-                    </div>
-                  </div>
-                  <div class="superframe-component42">
+
+                  <div class="superframe-component42" @click="showAlert">
                     <div class="superframe-image4">
                       <img
                         alt="SVGsprite18svgfillI361"
@@ -352,6 +349,13 @@ export default {
       isAuthenticated,
       mainStore,
     }
+  },
+  methods: {
+    showAlert() {
+      window.alert(
+        'Книжный трекер от команды COCOMOOD поможет тебе выработать привычку регулярного чтения. Ты сам ставишь себе цель, а мы поможем её достичь при помощи напоминаний и рекомендаций ;)',
+      )
+    },
   },
 }
 </script>
@@ -1318,7 +1322,7 @@ export default {
 }
 .superframe-margin17 {
   top: 17px;
-  left: 725px;
+  left: 780px;
   width: 240px;
   height: 57px;
   display: flex;
@@ -1456,6 +1460,7 @@ export default {
   display: flex;
   overflow: hidden;
   position: relative;
+  left: 30px;
   background: linear-gradient(
     180deg,
     rgba(71, 83, 97, 1) 0%,

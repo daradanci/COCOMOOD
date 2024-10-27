@@ -61,7 +61,6 @@ export default {
     log_in() {
       // this.login({ login: this.login, password: this.password })
       this.mainStore.login({ login: this.login, password: this.password })
-      alert(`ВХод завершен для ${this.login}!`)
     },
   },
 }

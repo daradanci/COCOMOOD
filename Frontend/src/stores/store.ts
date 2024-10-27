@@ -73,6 +73,8 @@ export const useMainStore = defineStore({
       ) {
         console.log('АВТОРИЗОВАН УРАААА')
         this.isAuthenticated = true
+        alert(`ВХод завершен для ${this.login}!`)
+
         router.push('tracker1')
       } else {
         console.log('НЕАВТОРИЗОВАН')
