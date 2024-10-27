@@ -9,8 +9,11 @@
                 <span
                   class="superframe-text10 www.livelib.ruSourceSansProSemiBold18"
                 >
-                  <!-- <span>Выйти</span> -->
-                  <router-link to="/" class="exit-btn">Выйти</router-link>
+                  <!-- <span @click="quit">Выйти</span> -->
+                  <router-link to="/" @click="quit" class="exit-btn"
+                    >Выйти</router-link
+                  >
+                  <!-- <button class="exit-btn" @click="quit">Выйти</button> -->
                 </span>
               </div>
             </button>
@@ -298,6 +301,9 @@
         </div>
         <div class="superframe-spv"></div>
       </div>
+      <a href="test">
+        <button onclick="to_recs">Рекоменации</button>
+      </a>
     </div>
   </div>
 </template>
@@ -306,6 +312,7 @@
 import BookList from '../components/BookList.vue'
 import DonutChart from '../components/DonutChart.vue'
 import { useMainStore } from '@/stores/store'
+import router from '@/router'
 export default {
   components: { DonutChart, BookList },
   name: 'superframe',
@@ -352,6 +359,9 @@ export default {
       window.alert(
         'Книжный трекер от команды COCOMOOD поможет тебе выработать привычку регулярного чтения. Ты сам ставишь себе цель, а мы поможем её достичь при помощи напоминаний и рекомендаций ;)',
       )
+    },
+    quit() {
+      this.mainStore.logout()
     },
   },
 }
@@ -1389,7 +1399,8 @@ export default {
   flex-direction: column;
 }
 .superframe-text66 {
-  color: #2d3133;
+  font-size: 40px;
+  color: #fff;
   height: auto;
   align-self: flex-start;
   text-align: left;

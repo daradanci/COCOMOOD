@@ -25,6 +25,14 @@ app.use(CanvasJSChart)
 
 import { useMainStore } from '@/stores/store'
 const mainStore = useMainStore()
+
+if (JSON.parse(localStorage.getItem('isAuthenticated'))) {
+  // localStorage.setItem('isAuthenticated', JSON.stringify(this.isAuthenticated))
+  mainStore.isAuthenticated = JSON.parse(
+    localStorage.getItem('isAuthenticated'),
+  )
+}
+
 router.beforeEach((to, from, next) => {
   if (to.name === 'tracker1' && !mainStore.isAuthenticated)
     next({ name: 'welcome' })

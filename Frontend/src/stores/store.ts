@@ -79,6 +79,10 @@ export const useMainStore = defineStore({
           userData,
         )
         this.isAuthenticated = true
+        localStorage.setItem(
+          'isAuthenticated',
+          JSON.stringify(this.isAuthenticated),
+        )
         router.push('tracker1')
 
         console.log(userData)
@@ -92,6 +96,10 @@ export const useMainStore = defineStore({
       } catch (error) {
         console.error('Ошибка при выполнении запроса:', error)
         this.isAuthenticated = false
+        localStorage.setItem(
+          'isAuthenticated',
+          JSON.stringify(this.isAuthenticated),
+        )
       }
     },
     logout() {
@@ -107,6 +115,10 @@ export const useMainStore = defineStore({
         password: '',
       }
       this.isAuthenticated = false
+      localStorage.setItem(
+        'isAuthenticated',
+        JSON.stringify(this.isAuthenticated),
+      )
     },
     readBook(bookData: { book_name: string; author: string; rate: number }) {
       this.booksRead.push(bookData)
