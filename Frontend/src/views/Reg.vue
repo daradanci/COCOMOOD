@@ -16,8 +16,8 @@
           <input type="text" id="name" v-model="name" />
         </div>
         <div class="input-group">
-          <label for="username">Логин</label>
-          <input type="text" id="username" v-model="username" />
+          <label for="login">Логин</label>
+          <input type="text" id="login" v-model="login" />
         </div>
         <div class="input-group">
           <label for="password">Пароль</label>
@@ -28,9 +28,10 @@
           />
         </div>
         <button type="submit" class="register-btn">
-          <router-link to="/auth" class="btn_btn"
+          <!-- <router-link to="/auth" class="btn_btn"
             >Зарегистрироваться</router-link
-          >
+          > -->
+          Зарегистрироваться
         </button>
       </form>
     </div>
@@ -38,20 +39,33 @@
 </template>
 
 <script>
+import { useMainStore } from '@/stores/store'
+import { storeToRefs } from 'pinia'
 export default {
   data() {
     return {
       name: '',
-      username: '',
+      login: '',
       password: '',
       showPassword: false,
     }
+  },
+  setup() {
+    const mainStore = useMainStore()
+    const { isAuthorized } = storeToRefs(useMainStore)
+
+    return { mainStore, isAuthorized }
   },
   methods: {
     togglePasswordVisibility() {
       this.showPassword = !this.showPassword
     },
     register() {
+      this.mainStore.register({
+        name: this.name,
+        login: this.login,
+        password: this.password,
+      })
       alert(`Регистрация завершена для ${this.name}!`)
     },
   },

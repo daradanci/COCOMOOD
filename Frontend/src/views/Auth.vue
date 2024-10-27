@@ -12,8 +12,8 @@
       <h2>Войти</h2>
       <form @submit.prevent="register">
         <div class="input-group">
-          <label for="username">Логин</label>
-          <input type="text" id="username" v-model="username" />
+          <label for="login">Логин</label>
+          <input type="text" id="login" v-model="login" />
         </div>
         <div class="input-group">
           <label for="password">Пароль</label>
@@ -24,8 +24,10 @@
           />
           <!-- <div class="eye" @click="togglePasswordVisibility">👁️</div> -->
         </div>
-        <button type="submit" class="register-btn">
-          <router-link to="/tracker1" class="btn_btn">Войти</router-link>
+        <button type="submit" class="register-btn" @click="log_in">
+          <!-- <router-link to="/tracker1" class="btn_btn" @click="log_in" -->
+          <!-- >Войти</router-link -->
+          > Войти!!!!
         </button>
       </form>
     </div>
@@ -33,22 +35,33 @@
 </template>
 
 <script>
+import { useMainStore } from '@/stores/store'
+import { storeToRefs } from 'pinia'
+import { computed, watch } from 'vue'
+import axios from 'axios'
 export default {
   data() {
     return {
       name: '',
-      username: '',
+      login: '',
       password: '',
       showPassword: false,
     }
+  },
+  setup() {
+    const mainStore = useMainStore()
+    const { isAuthorized } = storeToRefs(useMainStore)
+
+    return { mainStore, isAuthorized }
   },
   methods: {
     togglePasswordVisibility() {
       this.showPassword = !this.showPassword
     },
-    register() {
-      // Реализуйте регистрацию
-      alert(`Регистрация завершена для ${this.name}!`)
+    log_in() {
+      // this.login({ login: this.login, password: this.password })
+      this.mainStore.login({ login: this.login, password: this.password })
+      alert(`ВХод завершен для ${this.login}!`)
     },
   },
 }

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-
+import router from '@/router'
 const bookInfo = {
   id: 0,
   title: '',
@@ -57,18 +57,25 @@ export const useMainStore = defineStore({
     getBooks1: state => state.books1,
   },
   actions: {
-    register(userData: { username: string; email: string; password: string }) {
+    register(userData: { name: string; login: string; password: string }) {
       // как-то зарегаться что ли
     },
-    login(userData: { username: string; password: string }) {
+    login(userData: { login: string; password: string }) {
       // this.user = userData
       const rightUserData = {
-        username: 'dante13',
+        login: 'dante13',
         password: '123456',
       }
-      if (userData === rightUserData) {
+      console.log(userData)
+      if (
+        userData.login === rightUserData.login &&
+        userData.password === rightUserData.password
+      ) {
+        console.log('АВТОРИЗОВАН УРАААА')
         this.isAuthenticated = true
+        router.push('tracker1')
       } else {
+        console.log('НЕАВТОРИЗОВАН')
         this.isAuthenticated = false
       }
     },

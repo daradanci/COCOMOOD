@@ -22,7 +22,7 @@
 
 <script>
 import { useMainStore } from '@/stores/store'
-const store = useMainStore
+import { storeToRefs } from 'pinia'
 export default {
   data() {
     return {}
