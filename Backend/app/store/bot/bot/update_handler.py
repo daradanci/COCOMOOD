@@ -105,6 +105,34 @@ class Updater:
         chat = await self.app.store.accessor.get_chat(chat_id)
         if chat.state == DialogueState.AUTH:
             await self.app.store.accessor.edit_chat_state(chatid=chat_id,state=DialogueState.READING)
+            inline_keyboard = InlineKeyboardMarkup(
+                                    inline_keyboard=[
+                                        
+                                            InlineKeyboardButton(
+                                                text="Закончить чтение",
+                                                callback_data=f"end",
+                                            ),
+                                        
+                                        
+                                            InlineKeyboardButton(
+                                                text="Удалить сессию",
+                                                callback_data=f"abort",
+                                            )
+                                           
+                                    ]
+                                )
+            data = await self.handle_to_queue(
+                reply_markup=inline_keyboard,
+                chat_id=message.message.chat.id,
+                message_thread_id=message.message.message_thread_id,
+                text="Вопросы для выбора",
+            )
+        else:
+            await self.handle_to_queue(
+                chat_id=chat_id,
+                message_thread_id=message.message.message_thread_id,
+                text="Вы сейчас не в состоянии начать чтение",
+            )
         game = await self.app.store.game.return_current_game(message.message.chat.id)
         if game:
             if DialogueState(game.state) == GameState.PLAYER_REGISTRATION:

@@ -256,7 +256,7 @@ class DBAccessor(BaseAccessor):
         type_id: int,
         status_id: int,
         image: str,
-        link: int,
+        link: str,
         score: float | None = None,
         volumes: int | None = None,
         chapters: int | None = None,
