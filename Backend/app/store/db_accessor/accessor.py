@@ -32,7 +32,8 @@ from app.system.dataclasses import (
     AuthorListDC,
     GenreListDC,
     ScoreListDC,
-    ScoreFullDC
+    ScoreFullDC,
+    TGDC
 )
 from app.system.models import (
     TgModel,
@@ -765,7 +766,7 @@ class DBAccessor(BaseAccessor):
         except sqlalchemy.exc.ProgrammingError:
             return None
     
-    async def get_chat(self, chatid: int) -> dict|None:
+    async def get_chat(self, chatid: int) -> TGDC|None:
         try:
             async with self.app.database.session() as session:
                 query = (
@@ -775,7 +776,7 @@ class DBAccessor(BaseAccessor):
                 res = await session.scalars(query)
                 chat = res.one_or_none()
                 if chat:
-                    return {"userid":chat.userid,"state":chat.state}
+                    return TGDC(userid=chat.userid,state=chat.state,chatid=chatid)
                 return None
         except sqlalchemy.exc.IntegrityError:
             return None
@@ -813,3 +814,21 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
+
+    async def seacrh_manga_name(self, name: str) -> MangaDC | None:
+        try:
+            async with self.app.database.session() as session:
+                query = (
+                    select(MangaModel)
+                    .filter(MangaModel.title.ilike(f'%{name}%')).limit(1)
+                )
+                res = await session.scalars(query)
+                manga = res.one_or_none()
+                if manga:
+                    return manga.to_DC()
+                return None
+        except sqlalchemy.exc.IntegrityError:
+            return None
+        except sqlalchemy.exc.ProgrammingError:
+            return None
+    

@@ -172,3 +172,9 @@ class ScoreFullDC:
 @dataclass
 class ScoreListDC:
     data: list[ScoreFullDC]|None
+
+@dataclass
+class TGDC:
+    userid: int
+    state: str
+    chatid:int
