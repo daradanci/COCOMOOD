@@ -1,7 +1,11 @@
 from app.web.app import Application
 
 from app.system.views import (
-ReadDaysView,ReadStatView,ReadTimeView,InterestView,MangaView
+    ReadDaysView,
+    ReadStatView,
+    ReadTimeView,
+    InterestView,
+    MangaView,
 )
 
 

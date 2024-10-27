@@ -1,11 +1,6 @@
 from app.web.app import Application
 
-from app.user.views import (
-    UserLoginView,
-    UserCurrentView,
-    UserCreate,
-    UserInfoView
-)
+from app.user.views import UserLoginView, UserCurrentView, UserCreate, UserInfoView
 
 
 def register_urls(application: Application):

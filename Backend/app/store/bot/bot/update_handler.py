@@ -15,7 +15,8 @@ from kts_backend.store.bot.api.dataclasses import (
     MessageEntity,
     MessageToSend,
     answerCallbackQuery,
-    CallbackQuery, User,
+    CallbackQuery,
+    User,
 )
 
 if typing.TYPE_CHECKING:
@@ -26,14 +27,20 @@ class Updater:
     def __init__(self, app: "Application"):
         self.app = app
         self.is_running = False
-        self.handle_task: list[Task] |None
+        self.handle_task: list[Task] | None
 
     async def start(self):
         print("manager init")
         self.is_running = True
         # self.handle_task = asyncio.create_task(self.handle_update())
-        self.handle_task = asyncio.gather(self.handle_update(),self.handle_update(),self.handle_update(),
-                                          self.handle_update(),self.handle_update(),self.handle_update())
+        self.handle_task = asyncio.gather(
+            self.handle_update(),
+            self.handle_update(),
+            self.handle_update(),
+            self.handle_update(),
+            self.handle_update(),
+            self.handle_update(),
+        )
 
     async def stop(self):
         self.is_running = False
@@ -57,9 +64,7 @@ class Updater:
                 elif type(message) is MessageUpdate:
                     await self.handle_message(message)
             except Exception as inst:
-                self.app.logger.error(
-                    "Manager: Была получена ошибка:", exc_info=inst
-                )
+                self.app.logger.error("Manager: Была получена ошибка:", exc_info=inst)
             finally:
                 self.app.store.work_queue.task_done()
 
@@ -71,14 +76,16 @@ class Updater:
         else:
             await self.handle_text_message(message)
 
-    async def handle_command(self,message:MessageUpdate):
-        match message.message.text.split('@')[0]:
+    async def handle_command(self, message: MessageUpdate):
+        match message.message.text.split("@")[0]:
             case self.Commands.STARTGAME.value:
                 await self.handle_start_game(message)
             case self.Commands.PARTICIPATE.value:
                 await self.handle_participate(message)
             case self.Commands.GAMESTATS.value:
-                await self.handle_game_stat(message.message.chat.id,message.message.message_thread_id)
+                await self.handle_game_stat(
+                    message.message.chat.id, message.message.message_thread_id
+                )
             case self.Commands.FINISHGAME.value:
                 await self.handle_manual_finish_game(message)
             case self.Commands.LEFTGAME.value:
@@ -129,9 +136,7 @@ class Updater:
             )
 
     async def handle_participate(self, message: MessageUpdate):
-        game = await self.app.store.game.return_current_game(
-            message.message.chat.id
-        )
+        game = await self.app.store.game.return_current_game(message.message.chat.id)
         if game:
             if GameState(game.state) == GameState.PLAYER_REGISTRATION:
                 player = await self.app.store.game.get_player_by_id(
@@ -185,8 +190,8 @@ class Updater:
         min_number_of_players: int = 1,
     ) -> None:
         await asyncio.sleep(time_to_start)
-        current_amount_of_players = (
-            await self.app.store.game.get_amount_of_players(game_id)
+        current_amount_of_players = await self.app.store.game.get_amount_of_players(
+            game_id
         )
         if current_amount_of_players < min_number_of_players:
             await self.app.store.game.delete_game(game_id)
@@ -196,9 +201,7 @@ class Updater:
                 text=f"Игра была отменена из-за нехватки участникв.",
             )
         else:
-            await self.app.store.game.change_game_status(
-                game_id, GameState.START.value
-            )
+            await self.app.store.game.change_game_status(game_id, GameState.START.value)
             selected_pack = await self.app.store.game.get_random_pack(game_id)
             await self.handle_to_queue(
                 chat_id=chat_id,
@@ -257,9 +260,7 @@ class Updater:
                 )
 
     async def handle_leave(self, message: MessageUpdate):
-        game = await self.app.store.game.return_current_game(
-            message.message.chat.id
-        )
+        game = await self.app.store.game.return_current_game(message.message.chat.id)
         if game:
             player = await self.app.store.game.get_player_by_id(
                 message.message.from_user.id
@@ -287,9 +288,12 @@ class Updater:
                             message_thread_id=message.message.message_thread_id,
                             text=f"Все игроки вышли",
                         )
-                        await self.handle_finish_game(game_id=game.id, chat_id=message.message.chat.id,
-                                                      message_thread_id=message.message.message_thread_id,
-                                                      player=player)
+                        await self.handle_finish_game(
+                            game_id=game.id,
+                            chat_id=message.message.chat.id,
+                            message_thread_id=message.message.message_thread_id,
+                            player=player,
+                        )
                 else:
                     await self.handle_to_queue(
                         chat_id=message.message.chat.id,
@@ -313,9 +317,7 @@ class Updater:
             )
 
     async def handle_manual_finish_game(self, message: MessageUpdate):
-        game = await self.app.store.game.return_current_game(
-            message.message.chat.id
-        )
+        game = await self.app.store.game.return_current_game(message.message.chat.id)
         if game:
             if game.creator == message.message.from_user.id:
                 await self.handle_to_queue(
@@ -324,7 +326,12 @@ class Updater:
                     reply_to_message_id=message.message.message_id,
                     text=f"Вы завершили игру вручную",
                 )
-                await self.handle_finish_game(game_id=game.id, chat_id=message.message.chat.id,message_thread_id=message.message.message_thread_id,player=message.message.from_user)
+                await self.handle_finish_game(
+                    game_id=game.id,
+                    chat_id=message.message.chat.id,
+                    message_thread_id=message.message.message_thread_id,
+                    player=message.message.from_user,
+                )
 
             else:
                 await self.handle_to_queue(
@@ -349,13 +356,17 @@ class Updater:
             text=f"Такой команды не существует",
         )
 
-    async def handle_finish_game(self, game_id: int,chat_id:int,message_thread_id:int,player:User):
+    async def handle_finish_game(
+        self, game_id: int, chat_id: int, message_thread_id: int, player: User
+    ):
         await self.app.store.game.dump_question(game_id=game_id, questions=[])
         await self.app.store.game.change_game_status(
-            game_id=game_id, status=GameState.FINISH.value, time =datetime.now()
+            game_id=game_id, status=GameState.FINISH.value, time=datetime.now()
         )
         scores = await self.app.store.game.get_game_scores(game_id=game_id)
-        winner = await self.app.store.game.set_winner(game_id=game_id,player_id=scores[0].player_id)
+        winner = await self.app.store.game.set_winner(
+            game_id=game_id, player_id=scores[0].player_id
+        )
         await self.handle_to_queue(
             chat_id=chat_id,
             message_thread_id=message_thread_id,
@@ -366,45 +377,52 @@ class Updater:
             message_thread_id=message_thread_id,
             text=f"Конечная статистика по игре №{game_id}",
         )
-        await self.handle_game_stat(chat_id,message_thread_id)
+        await self.handle_game_stat(chat_id, message_thread_id)
 
     async def handle_playerstat(self, message: MessageUpdate):
-        player =await self.app.store.game.get_player_by_id(message.message.from_user.id)
+        player = await self.app.store.game.get_player_by_id(
+            message.message.from_user.id
+        )
         if player:
-            text = f"Статистика игрока {message.message.from_user.username if message.message.from_user.username else message.message.from_user.first_name}%0AКоличество выигранных игр: {player.win_count}%0AКоличество сыгранных игр: {player.games_count}",
+            text = (
+                f"Статистика игрока {message.message.from_user.username if message.message.from_user.username else message.message.from_user.first_name}%0AКоличество выигранных игр: {player.win_count}%0AКоличество сыгранных игр: {player.games_count}",
+            )
             await self.handle_to_queue(
                 chat_id=message.message.chat.id,
                 message_thread_id=message.message.message_thread_id,
                 reply_to_message_id=message.message.message_id,
-                text=text[0]
+                text=text[0],
             )
         else:
             await self.handle_to_queue(
-            chat_id=message.message.chat.id,
-            message_thread_id=message.message.message_thread_id,
-            reply_to_message_id=message.message.message_id,
-            text="Вы никогда не участвовали в игре"
-        )
+                chat_id=message.message.chat.id,
+                message_thread_id=message.message.message_thread_id,
+                reply_to_message_id=message.message.message_id,
+                text="Вы никогда не участвовали в игре",
+            )
 
-    async def handle_game_stat(self, chat_id:int, message_thread_id:int):
+    async def handle_game_stat(self, chat_id: int, message_thread_id: int):
         game = await self.app.store.game.return_last_game(chat_id)
         if game:
-            playerstat = await self.app.store.game.get_game_scores_with_players(game_id=game.id)
+            playerstat = await self.app.store.game.get_game_scores_with_players(
+                game_id=game.id
+            )
             text = f"Статистика последней игры:%0A"
-            text+="%0A".join([f"{oneplayerstat.player.username if oneplayerstat.player.username else oneplayerstat.player.name} : Счет = {oneplayerstat.score.score}; Верно/неверно: {oneplayerstat.score.right_answers}/{oneplayerstat.score.wrong_answers}" for oneplayerstat in playerstat])
+            text += "%0A".join(
+                [
+                    f"{oneplayerstat.player.username if oneplayerstat.player.username else oneplayerstat.player.name} : Счет = {oneplayerstat.score.score}; Верно/неверно: {oneplayerstat.score.right_answers}/{oneplayerstat.score.wrong_answers}"
+                    for oneplayerstat in playerstat
+                ]
+            )
             await self.handle_to_queue(
-                chat_id=chat_id,
-                message_thread_id=message_thread_id,
-                text=text
+                chat_id=chat_id, message_thread_id=message_thread_id, text=text
             )
         else:
             await self.handle_to_queue(
                 chat_id=chat_id,
                 message_thread_id=message_thread_id,
-                text="В данном чате никогда не проводилась игра"
+                text="В данном чате никогда не проводилась игра",
             )
-
-
 
     async def handle_callbackquery(self, callback: CallbackQueryUpdate):
         callback_query = callback.callback_query
@@ -449,20 +467,14 @@ class Updater:
                     text=f"Отвечает {callback.from_user.username if callback.from_user.username else callback.from_user.first_name}",
                 )
                 await asyncio.sleep(game.answer_time)
-                current_game_state = (
-                    await self.app.store.game.return_current_game(
-                        callback.message.chat.id
-                    )
+                current_game_state = await self.app.store.game.return_current_game(
+                    callback.message.chat.id
                 )
-                if (
-                    current_game_state.state
-                    == GameState.QUESTION_ANSWERING.value
-                ):
+                if current_game_state.state == GameState.QUESTION_ANSWERING.value:
                     print("''''''")
                     print("''''''")
                     if (
-                        current_game_state.current_question
-                        == game.current_question
+                        current_game_state.current_question == game.current_question
                         and current_game_state.answering_player_tg_id
                         == callback.from_user.id
                     ):
@@ -512,9 +524,7 @@ class Updater:
                 )
             )
 
-    async def handle_choosing_question(
-        self, game: GameDC, callback: CallbackQuery
-    ):
+    async def handle_choosing_question(self, game: GameDC, callback: CallbackQuery):
         if (
             game.answering_player_tg_id == callback.from_user.id
             and game.state == GameState.QUESTION_SELECT.value
@@ -524,7 +534,7 @@ class Updater:
                 await self.app.store.game.change_game_status(
                     game.id, GameState.QUESTION_ANSWERING.value
                 )
-                res= await self.app.store.game.set_current_question(
+                res = await self.app.store.game.set_current_question(
                     game_id=game.id, question=int(callback_data[0])
                 )
                 await self.app.store.game.set_answering(game_id=game.id)
@@ -547,13 +557,14 @@ class Updater:
                 )
                 while True:
                     await asyncio.sleep(game.answer_time)
-                    current_game_state = (
-                        await self.app.store.game.return_current_game(
-                            callback.message.chat.id
-                        )
+                    current_game_state = await self.app.store.game.return_current_game(
+                        callback.message.chat.id
                     )
-                    if (current_game_state.state== GameState.QUESTION_ANSWERING.value and current_game_state.current_question == int(callback_data[0])):
-                        if(current_game_state.answering_player_tg_id is None ):
+                    if (
+                        current_game_state.state == GameState.QUESTION_ANSWERING.value
+                        and current_game_state.current_question == int(callback_data[0])
+                    ):
+                        if current_game_state.answering_player_tg_id is None:
                             await self.app.store.game.change_game_status(
                                 game.id, GameState.QUESTION_SELECT.value
                             )
@@ -566,10 +577,14 @@ class Updater:
                             await self.app.store.game.set_answering(
                                 game_id=game.id, player_id=callback.from_user.id
                             )
-                            answers = await self.app.store.game.get_answers(int(callback_data[0]))
+                            answers = await self.app.store.game.get_answers(
+                                int(callback_data[0])
+                            )
                             if answers:
-                                text = f"Никто не ответил на вопрос, Правильные ответы: "
-                                text+= "; ".join([answer.text for answer in answers])
+                                text = (
+                                    f"Никто не ответил на вопрос, Правильные ответы: "
+                                )
+                                text += "; ".join([answer.text for answer in answers])
                             else:
                                 text = "Вопрос был ловушкой. Правильного овтета нет. ХАХАХАХААХАХ"
                             await self.handle_to_queue(
@@ -657,9 +672,7 @@ class Updater:
             )
 
     async def handle_text_message(self, message: MessageUpdate):
-        game = await self.app.store.game.return_current_game(
-            message.message.chat.id
-        )
+        game = await self.app.store.game.return_current_game(message.message.chat.id)
         if game:
             if (
                 game.answering_player_tg_id == message.message.from_user.id
@@ -822,7 +835,16 @@ class Updater:
                 message_thread_id=response.message.message_thread_id,
                 text=f"Все вопросы вышли",
             )
-            await self.handle_finish_game(game_id=game.id,chat_id=response.message.chat.id,message_thread_id=response.message.message_thread_id,player=response.from_user if type(response)==CallbackQuery else response.message.from_user)
+            await self.handle_finish_game(
+                game_id=game.id,
+                chat_id=response.message.chat.id,
+                message_thread_id=response.message.message_thread_id,
+                player=(
+                    response.from_user
+                    if type(response) == CallbackQuery
+                    else response.message.from_user
+                ),
+            )
 
     async def handle_to_queue(
         self,

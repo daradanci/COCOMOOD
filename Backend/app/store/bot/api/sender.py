@@ -31,8 +31,6 @@ class Sender:
                 self.app.logger.info(f"SENDER. Отправляю сообщение {message}")
                 await self.app.store.tgapi.send_message(message)
             except Exception as inst:
-                self.app.logger.error(
-                    "Sender: Была получена ошибка:", exc_info=inst
-                )
+                self.app.logger.error("Sender: Была получена ошибка:", exc_info=inst)
             finally:
                 self.app.store.send_queue.task_done()

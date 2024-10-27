@@ -73,9 +73,7 @@ class InlineKeyboardButtonSchema(Schema):
 class InlineKeyboardMarkupSchema(Schema):
     inline_keyboard = fields.List(
         fields.List(
-            fields.Nested(
-                InlineKeyboardButtonSchema, required=True, unknown=EXCLUDE
-            ),
+            fields.Nested(InlineKeyboardButtonSchema, required=True, unknown=EXCLUDE),
             required=True,
         ),
         required=True,
@@ -113,9 +111,7 @@ class MessageEntitySchema(Schema):
     offset = fields.Integer(required=True)
     length = fields.Integer(required=True)
     url = fields.String(required=False, load_default=None)
-    user = fields.Nested(
-        UserSchema, required=False, load_default=None, unknown=EXCLUDE
-    )
+    user = fields.Nested(UserSchema, required=False, load_default=None, unknown=EXCLUDE)
     language = fields.String(required=False, load_default=None)
     custom_emoji_id = fields.String(required=False, load_default=None)
 
@@ -139,9 +135,7 @@ class MessageToSendSchema(Schema):
 
 class CallbackQueryUpdateSchema(Schema):
     update_id = fields.Integer(required=True)
-    callback_query = fields.Nested(
-        CallbackQuerySchema, required=True, unknown=EXCLUDE
-    )
+    callback_query = fields.Nested(CallbackQuerySchema, required=True, unknown=EXCLUDE)
 
     @post_load
     def dump_CallbackQueryUpdate(self, data, **kwargs):

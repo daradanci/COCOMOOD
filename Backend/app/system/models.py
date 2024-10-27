@@ -123,9 +123,7 @@ class MangaModel(db):
 
     id = Column(Integer, primary_key=True)
     title = Column(String, unique=True, nullable=False)
-    type_id = Column(
-        Integer, ForeignKey("type.id", ondelete="cascade"), nullable=False
-    )
+    type_id = Column(Integer, ForeignKey("type.id", ondelete="cascade"), nullable=False)
     score = Column(Float, nullable=True)
     status_id = Column(
         Integer, ForeignKey("status.id", ondelete="cascade"), nullable=False
@@ -305,9 +303,7 @@ class ScoreModel(db):
     manga_id = Column(
         Integer, ForeignKey("manga.id", ondelete="cascade"), nullable=False
     )
-    user_id = Column(
-        Integer, ForeignKey("user.id", ondelete="cascade"), nullable=False
-    )
+    user_id = Column(Integer, ForeignKey("user.id", ondelete="cascade"), nullable=False)
     rating = Column(Integer, nullable=False)
 
     __table_args__ = (PrimaryKeyConstraint(manga_id, user_id),)
@@ -323,18 +319,14 @@ class ScoreModel(db):
     )
 
     def to_DC(self) -> ScoreDC:
-        return ScoreDC(
-            manga_id=self.manga_id, user_id=self.user_id, rating=self.rating
-        )
+        return ScoreDC(manga_id=self.manga_id, user_id=self.user_id, rating=self.rating)
 
 
 class ReadTimeModel(db):
     __tablename__ = "readtime"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(
-        Integer, ForeignKey("user.id", ondelete="cascade"), nullable=False
-    )
+    user_id = Column(Integer, ForeignKey("user.id", ondelete="cascade"), nullable=False)
     start = Column(DateTime, nullable=False)
     end = Column(DateTime, nullable=True)
     user_time = relationship(

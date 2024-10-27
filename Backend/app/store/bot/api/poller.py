@@ -37,14 +37,10 @@ class Poller:
             updates = results["updates"]
             offset = results["new_offset"]
             for upd in updates:
-                self.app.logger.info(
-                    f"Poller. Было получено новое сообщение:{upd}"
-                )
+                self.app.logger.info(f"Poller. Было получено новое сообщение:{upd}")
                 if "message" in upd:
                     update = MessageUpdateSchema().load(upd, unknown=EXCLUDE)
                     await self.app.store.work_queue.put(update)
                 elif "callback_query" in upd:
-                    update = CallbackQueryUpdateSchema().load(
-                        upd, unknown=EXCLUDE
-                    )
+                    update = CallbackQueryUpdateSchema().load(upd, unknown=EXCLUDE)
                     await self.app.store.work_queue.put(update)

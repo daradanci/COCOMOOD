@@ -28,7 +28,11 @@ from app.system.dataclasses import (
     ReadTimeMangaListDC,
     ReadTimeDetailsListDC,
     ThemeListDC,
-    TAListDC,AuthorListDC,GenreListDC
+    TAListDC,
+    AuthorListDC,
+    GenreListDC,
+    ScoreListDC,
+    ScoreFullDC
 )
 from app.system.models import (
     ThemeModel,
@@ -132,9 +136,7 @@ class DBAccessor(BaseAccessor):
         try:
             async with self.app.database.session() as session:
                 query = (
-                    update(UserModel)
-                    .where(UserModel.login == login)
-                    .values(tgid=tgid)
+                    update(UserModel).where(UserModel.login == login).values(tgid=tgid)
                 )
                 await session.execute(query)
                 await session.commit()
@@ -277,9 +279,7 @@ class DBAccessor(BaseAccessor):
         except sqlalchemy.exc.ProgrammingError:
             return None
 
-    async def add_mangatheme(
-        self, manga_id: int, theme_id: int
-    ) -> MangaThemeDC | None:
+    async def add_mangatheme(self, manga_id: int, theme_id: int) -> MangaThemeDC | None:
         try:
             async with self.app.database.session() as session:
                 mt = MangaThemeModel(manga_id=manga_id, theme_id=theme_id)
@@ -308,9 +308,7 @@ class DBAccessor(BaseAccessor):
     ) -> MangaAuthorDC | None:
         try:
             async with self.app.database.session() as session:
-                ma = MangaAuthorModel(
-                    manga_id=manga_id, author_id=author_id, role=role
-                )
+                ma = MangaAuthorModel(manga_id=manga_id, author_id=author_id, role=role)
                 session.add(ma)
                 await session.commit()
                 return ma.to_DC()
@@ -319,9 +317,7 @@ class DBAccessor(BaseAccessor):
         except sqlalchemy.exc.ProgrammingError:
             return None
 
-    async def add_mangagenre(
-        self, manga_id: int, genre_id: int
-    ) -> MangaGenreDC | None:
+    async def add_mangagenre(self, manga_id: int, genre_id: int) -> MangaGenreDC | None:
         try:
             async with self.app.database.session() as session:
                 mg = MangaGenreModel(manga_id=manga_id, genre_id=genre_id)
@@ -338,9 +334,7 @@ class DBAccessor(BaseAccessor):
     ) -> ScoreDC | None:
         try:
             async with self.app.database.session() as session:
-                score = ScoreModel(
-                    manga_id=manga_id, user_id=user_id, score=score
-                )
+                score = ScoreModel(manga_id=manga_id, user_id=user_id, score=score)
                 session.add(score)
                 await session.commit()
                 return score.to_DC()
@@ -429,9 +423,7 @@ class DBAccessor(BaseAccessor):
         except sqlalchemy.exc.ProgrammingError:
             return None
 
-    async def change_score(
-        self, user_id: int, manga_id: int, rating: int
-    ) -> None:
+    async def change_score(self, user_id: int, manga_id: int, rating: int) -> None:
         try:
             async with self.app.database.session() as session:
                 query = (
@@ -485,7 +477,6 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-        
 
     async def get_completed_books(self, user_id: int) -> int | None:
         try:
@@ -504,7 +495,6 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-        
 
     async def get_all_read_info_by_user_id(
         self, user_id: int
@@ -545,17 +535,14 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-        
 
     async def get_all_read_time_by_user_id(
-        self,user_id:int,
-    ) -> ReadTimeListDC| None:
+        self,
+        user_id: int,
+    ) -> ReadTimeListDC | None:
         try:
             async with self.app.database.session() as session:
-                query = (
-                    select(ReadTimeModel)
-                    .where(ReadTimeModel.user_id == user_id)
-                )
+                query = select(ReadTimeModel).where(ReadTimeModel.user_id == user_id)
                 res = await session.scalars(query)
                 readtime = res.all()
                 if readtime:
@@ -577,13 +564,14 @@ class DBAccessor(BaseAccessor):
             return None
 
     async def get_all_read_time_by_user_id_within_week(
-        self,user_id:int,
-    ) -> ReadTimeListDC|None:
+        self,
+        user_id: int,
+    ) -> ReadTimeListDC | None:
         try:
             async with self.app.database.session() as session:
-                query = (
-                    select(ReadTimeModel)
-                    .where((ReadTimeModel.user_id == user_id)&(ReadTimeModel.start>datetime.now()-timedelta(days=7)))
+                query = select(ReadTimeModel).where(
+                    (ReadTimeModel.user_id == user_id)
+                    & (ReadTimeModel.start > datetime.now() - timedelta(days=7))
                 )
                 res = await session.scalars(query)
                 readtime = res.all()
@@ -605,14 +593,20 @@ class DBAccessor(BaseAccessor):
         except sqlalchemy.exc.ProgrammingError:
             return None
 
-    async def get_mangainfo(
-        self, manga_id:int
-    ) -> MangaInfoDC| None:
+    async def get_mangainfo(self, manga_id: int) -> MangaInfoDC | None:
         try:
             async with self.app.database.session() as session:
                 query = (
                     select(MangaModel)
-                    .where(MangaModel.id == manga_id).options(selectinload(MangaModel.mangatype).selectinload(MangaModel.mangastatus).selectinload(MangaModel.mangatheme).selectinload(MangaModel.mangata).selectinload(MangaModel.mangaauthor).selectinload(MangaModel.mangagenre))
+                    .where(MangaModel.id == manga_id)
+                    .options(
+                        selectinload(MangaModel.mangatype)
+                        .selectinload(MangaModel.mangastatus)
+                        .selectinload(MangaModel.mangatheme)
+                        .selectinload(MangaModel.mangata)
+                        .selectinload(MangaModel.mangaauthor)
+                        .selectinload(MangaModel.mangagenre)
+                    )
                 )
                 res = await session.scalars(query)
                 manga = res.one_or_none()
@@ -639,77 +633,117 @@ class DBAccessor(BaseAccessor):
             return None
 
     async def get_themes(
-        self,themes:list[int],
-    ) -> ThemeListDC|None:
+        self,
+        themes: list[int],
+    ) -> ThemeListDC | None:
         try:
             async with self.app.database.session() as session:
-                query = (
-                    select(ThemeModel).filter(ThemeModel.id.in_(themes))
-                )
+                query = select(ThemeModel).filter(ThemeModel.id.in_(themes))
                 res = await session.scalars(query)
                 theme_res = res.all()
                 if theme_res:
-                    return ThemeListDC(
-                        data=[theme.to_DC()for theme in theme_res]
-                    )
+                    return ThemeListDC(data=[theme.to_DC() for theme in theme_res])
                 return None
         except sqlalchemy.exc.IntegrityError:
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
 
-    async def get_tas(
-        self,tas:list[int]
-    ) ->TAListDC| None:
+    async def get_tas(self, tas: list[int]) -> TAListDC | None:
         try:
             async with self.app.database.session() as session:
-                query = (
-                    select(TAModel).filter(TAModel.id.in_(tas))
-                )
+                query = select(TAModel).filter(TAModel.id.in_(tas))
                 res = await session.scalars(query)
                 ta_res = res.all()
                 if ta_res:
-                    return TAListDC(
-                        data=[ta.to_DC()for ta in ta_res]
-                    )
+                    return TAListDC(data=[ta.to_DC() for ta in ta_res])
                 return None
         except sqlalchemy.exc.IntegrityError:
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def get_authors(
-        self,authors:list[int]
-    ) -> AuthorListDC|None:
+
+    async def get_authors(self, authors: list[int]) -> AuthorListDC | None:
         try:
             async with self.app.database.session() as session:
-                query = (
-                    select(AuthorModel).filter(AuthorModel.id.in_(authors))
-                )
+                query = select(AuthorModel).filter(AuthorModel.id.in_(authors))
                 res = await session.scalars(query)
                 author_res = res.all()
                 if author_res:
-                    return ThemeListDC(
-                        data=[author.to_DC()for author in author_res]
-                    )
+                    return ThemeListDC(data=[author.to_DC() for author in author_res])
                 return None
         except sqlalchemy.exc.IntegrityError:
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def get_genres(
-        self,genres:list[int]
-    ) -> GenreListDC|None:
+
+    async def get_genres(self, genres: list[int]) -> GenreListDC | None:
         try:
             async with self.app.database.session() as session:
-                query = (
-                    select(GenreModel).filter(GenreModel.id.in_(genres))
-                )
+                query = select(GenreModel).filter(GenreModel.id.in_(genres))
                 res = await session.scalars(query)
                 genre_res = res.all()
                 if genre_res:
-                    return ThemeListDC(
-                        data=[genre.to_DC()for genre in genre_res]
+                    return ThemeListDC(data=[genre.to_DC() for genre in genre_res])
+                return None
+        except sqlalchemy.exc.IntegrityError:
+            return None
+        except sqlalchemy.exc.ProgrammingError:
+            return None
+
+    async def get_all_mangainfo(self) -> list[MangaInfoDC] | None:
+        try:
+            async with self.app.database.session() as session:
+                query = (
+                    select(MangaModel)
+                    .options(
+                        selectinload(MangaModel.mangatype)
+                        .selectinload(MangaModel.mangastatus)
+                        .selectinload(MangaModel.mangatheme)
+                        .selectinload(MangaModel.mangata)
+                        .selectinload(MangaModel.mangaauthor)
+                        .selectinload(MangaModel.mangagenre)
                     )
+                )
+                res = await session.scalars(query)
+                mangas = res.all()
+                if mangas:
+                    return [MangaInfoDC(
+                        id=manga.id,
+                        title=manga.title,
+                        score=manga.score,
+                        volumes=manga.volumes,
+                        chapters=manga.chapters,
+                        image=manga.image,
+                        link=manga.link,
+                        type=manga.mangatype.to_DC(),
+                        status=manga.mangastatus.to_DC(),
+                        theme=[theme.to_DC() for theme in manga.mangatheme],
+                        ta=[ta.to_DC() for ta in manga.mangata],
+                        author=[author.to_DC() for author in manga.mangaauthor],
+                        genre=[genre.to_DC() for genre in manga.mangagenre],
+                    )for manga in mangas]
+                
+                return None
+        except sqlalchemy.exc.IntegrityError:
+            return None
+        except sqlalchemy.exc.ProgrammingError:
+            return None
+        
+    async def get_user_scores(self, user_id:int)->ScoreListDC:
+        try:
+            async with self.app.database.session() as session:
+                query = (
+                    select(ScoreModel).where(ScoreModel.user_id==user_id)
+                    )
+                res = await session.scalars(query)
+                scores = res.all()
+                if scores:
+                    return ScoreListDC(data=[ScoreFullDC(
+                        manga = await self.get_mangainfo(score.manga_id),
+                        user_id=score.user_id,
+                        rating=score.rating
+                    ) for score in scores])             
                 return None
         except sqlalchemy.exc.IntegrityError:
             return None

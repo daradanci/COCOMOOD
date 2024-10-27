@@ -49,9 +49,7 @@ class TGApi(BaseAccessor):
             [
                 f"{param}={value}"
                 for param, value in params.items()
-                if value
-                and param != "allowed_updates"
-                and param != "reply_markup"
+                if value and param != "allowed_updates" and param != "reply_markup"
             ]
         )
         if "reply_markup" in params and params["reply_markup"]:
@@ -79,15 +77,11 @@ class TGApi(BaseAccessor):
                 self.logger.info("Poller: Новых сообщений не было получено")
                 return {"updates": [], "new_offset": offset}
             except Exception as inst:
-                self.logger.error(
-                    "Poller: Была получена ошибка:", exc_info=inst
-                )
+                self.logger.error("Poller: Была получена ошибка:", exc_info=inst)
 
     async def send_message(self, message: MessageToSend):
         params = MessageToSendSchema().dump(message)
-        self.app.logger.info(
-            f"Sender: Отправляю сообщение с содержимым {params}"
-        )
+        self.app.logger.info(f"Sender: Отправляю сообщение с содержимым {params}")
         url = self.build_url("sendMessage", params)
         async with self.client.get(url) as response:
             data = await response.json()
