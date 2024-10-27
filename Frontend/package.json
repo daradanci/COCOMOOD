@@ -2,7 +2,6 @@
   "name": "frontend",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
@@ -11,14 +10,18 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "serve": "vue-cli-service serve"
   },
   "dependencies": {
     "@canvasjs/charts": "^3.10.13",
     "@canvasjs/vue-charts": "^1.0.4",
+    "@vue/cli-service": "^5.0.8",
     "bootstrap": "^5.3.3",
+    "js-cookie": "^3.0.5",
     "pinia": "^2.2.4",
     "vue": "^3.5.12",
+    "vue-cookies": "^1.8.4",
     "vue-grid-responsive": "^0.5.0",
     "vue-router": "^4.4.5"
   },

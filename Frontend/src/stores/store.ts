@@ -1,5 +1,8 @@
 import { defineStore } from 'pinia'
 import router from '@/router'
+import axios from 'axios'
+import Cookies from 'js-cookie'
+
 const bookInfo = {
   id: 0,
   title: '',
@@ -57,27 +60,37 @@ export const useMainStore = defineStore({
     getBooks1: state => state.books1,
   },
   actions: {
-    register(userData: { name: string; login: string; password: string }) {
-      // как-то зарегаться что ли
+    async register(userData: {
+      name: string
+      login: string
+      password: string
+    }) {
+      const req_result = await axios.post(
+        `http://192.168.250.244:8080/user/create`,
+        userData,
+      )
+      console.log(req_result)
     },
-    login(userData: { login: string; password: string }) {
-      // this.user = userData
-      const rightUserData = {
-        login: 'dante13',
-        password: '123456',
-      }
-      console.log(userData)
-      if (
-        userData.login === rightUserData.login &&
-        userData.password === rightUserData.password
-      ) {
-        console.log('АВТОРИЗОВАН УРАААА')
-        this.isAuthenticated = true
-        alert(`ВХод завершен для ${this.login}!`)
 
+    async login(userData: { login: string; password: string }) {
+      try {
+        const req_result = await axios.post(
+          `http://192.168.250.244:8080/user/login`,
+          userData,
+        )
+        this.isAuthenticated = true
         router.push('tracker1')
-      } else {
-        console.log('НЕАВТОРИЗОВАН')
+
+        console.log(userData)
+        console.log(req_result)
+
+        // Предположим, что токен возвращается в `req_result.data.token`
+        if (req_result.data && req_result.data.token) {
+          Cookies.set('authToken', req_result.data.token, { expires: 1 }) // Сохраняем куки на 1 день
+          console.log('Куки сохранены')
+        }
+      } catch (error) {
+        console.error('Ошибка при выполнении запроса:', error)
         this.isAuthenticated = false
       }
     },
@@ -97,6 +110,27 @@ export const useMainStore = defineStore({
     },
     readBook(bookData: { book_name: string; author: string; rate: number }) {
       this.booksRead.push(bookData)
+    },
+    async getUserData(userData: {}) {
+      try {
+        const req_result = await axios.post(
+          `http://192.168.250.244:8080/user/read_amount`,
+          userData,
+          { withCredentials: true },
+        )
+
+        console.log(userData)
+        console.log(req_result)
+
+        // Предположим, что токен возвращается в `req_result.data.token`
+        if (req_result.data && req_result.data.token) {
+          Cookies.set('authToken', req_result.data.token, { expires: 1 }) // Сохраняем куки на 1 день
+          console.log('Куки сохранены')
+        }
+      } catch (error) {
+        console.error('Ошибка при выполнении запроса:', error)
+        this.isAuthenticated = false
+      }
     },
   },
 })

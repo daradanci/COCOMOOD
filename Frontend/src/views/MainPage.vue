@@ -166,7 +166,7 @@
                     <span>в среднем составляет:</span>
                   </span>
                   <span class="superframe-text61 Text">
-                    <span>1 час</span>
+                    <span>1 мин</span>
                   </span>
                 </div>
               </div>
@@ -186,7 +186,7 @@
                     <span>ты притрагивался к книгам: </span>
                   </span>
                   <span class="superframe-text61 Text">
-                    <span>2</span>
+                    <span>1</span>
 
                     <span
                       class="superframe-text57"
@@ -271,10 +271,7 @@
               <div class="superframe-margin19">
                 <div class="superframe-container30">
                   <div class="superframe-filled-black">
-                    <a
-                      href="https://stackoverflow.com/questions/41168307/vue-js-2-0-router-link-in-a-div-component"
-                      target="”_blank”"
-                    >
+                    <a href="https://t.me/CocoMoodBot" target="”_blank”">
                       <div class="superframe-artboard">
                         <img
                           alt="Path4520"

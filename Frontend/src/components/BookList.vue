@@ -12,7 +12,9 @@
             <h5 class="card-title">{{ book.title }}</h5>
             <p class="card-text">{{ book.author }}</p>
             <p class="card-text">{{ book.rating }}/10</p>
-            <button class="btn btn-success">Подробнее</button>
+            <a href="https://myanimelist.net/manga/2/Berserk" target="_blank">
+              <button class="btn btn-success">Подробнее</button>
+            </a>
           </div>
         </div>
       </div>
@@ -30,10 +32,17 @@ export default {
   setup() {
     const mainStore = useMainStore()
     mainStore.readBook({
-      image: 'path/to/image1.jpg', // Замените на реальный путь к изображению
-      title: 'Том 1',
-      author: 'Мосян Тунсю',
+      image: '../src/assets/157897l.jpg', // Замените на реальный путь к изображению
+      title: 'Берсерк Том 1',
+      author: 'Кэнтаро Миура',
       rating: 8,
+    })
+
+    mainStore.readBook({
+      image: '../src/assets/157931l.jpg', // Замените на реальный путь к изображению
+      title: 'Бересерк Том 6',
+      author: 'Кэнтаро Миура',
+      rating: 8.6,
     })
     // Доступ к состоянию и методам
     // const booksRead = mainStore.getBooksRead // для геттера
