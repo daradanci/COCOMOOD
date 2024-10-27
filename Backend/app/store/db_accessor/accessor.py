@@ -251,6 +251,7 @@ class DBAccessor(BaseAccessor):
 
     async def add_manga(
         self,
+        id:int,
         title: str,
         type_id: int,
         status_id: int,
@@ -263,6 +264,7 @@ class DBAccessor(BaseAccessor):
         try:
             async with self.app.database.session() as session:
                 manga = MangaModel(
+                    id=id,
                     title=title,
                     type_id=type_id,
                     status_id=status_id,

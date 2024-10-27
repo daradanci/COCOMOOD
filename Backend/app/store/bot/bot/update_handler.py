@@ -83,49 +83,31 @@ class Updater:
                 await self.handle_wrong_command(message)
 
     async def handle_start(self, message: MessageUpdate):
-        player = await self.app.store.game.get_player_by_id(
-            message.message.from_user.id
-        )
-        if player == None:
-            await self.app.store.game.create_player(
-                tg_id=message.message.from_user.id,
-                name=message.message.from_user.first_name,
-                username=message.message.from_user.username,
-            )
-        new_game = await self.app.store.game.create_game(
-            chat_id=message.message.chat.id,
-            player_id=message.message.from_user.id,
-        )
-        self.app.logger.info(f"Manager: Текущая игра:{new_game} ")
-        if new_game:
+        chat_id = message.message.chat.id
+        chat = await self.app.store.accessor.get_chat(chat_id)
+        if not chat:
+            await self.app.store.accessor.add_chat(chat_id)
             await self.handle_to_queue(
-                chat_id=message.message.chat.id,
+                chat_id=chat_id,
                 message_thread_id=message.message.message_thread_id,
-                text=f"Игра №{new_game.id} была создана. Для участия в ней напишите /participate",
-            )
-            await self.app.store.game.change_game_status(
-                new_game.id, GameState.PLAYER_REGISTRATION.value
-            )
-            await self.handle_participate(message)
-            asyncio.create_task(
-                self.handle_start_initialization(
-                    game_id=new_game.id,
-                    chat_id=message.message.chat.id,
-                    owner_id=message.message.from_user.id,
-                    message_thread_id=message.message.message_thread_id,
-                )
+                text='''Вы запустили меня. Теперь авторизуйтесь, для этого введите Логин и пароль в формате "login;password"''',
             )
         else:
             await self.handle_to_queue(
-                chat_id=message.message.chat.id,
+                chat_id=chat_id,
                 message_thread_id=message.message.message_thread_id,
-                text=f"Новая игра не была создана, так как предыдущая игра не была закончена.",
+                text="Вы уже запустили меня",
             )
+        
 
     async def handle_start_read(self, message: MessageUpdate):
+        chat_id = message.message.chat.id
+        chat = await self.app.store.accessor.get_chat(chat_id)
+        if chat.state == DialogueState.AUTH:
+            await self.app.store.accessor.edit_chat_state(chatid=chat_id,state=DialogueState.READING)
         game = await self.app.store.game.return_current_game(message.message.chat.id)
         if game:
-            if GameState(game.state) == GameState.PLAYER_REGISTRATION:
+            if DialogueState(game.state) == GameState.PLAYER_REGISTRATION:
                 player = await self.app.store.game.get_player_by_id(
                     message.message.from_user.id
                 )
@@ -245,6 +227,10 @@ class Updater:
                     message_thread_id=message_thread_id,
                     text=f"Не удалось выбрать отвечающего игрока. УВЫ. Перезапустите игру.",
                 )
+
+
+
+
 
     async def handle_leave(self, message: MessageUpdate):
         game = await self.app.store.game.return_current_game(message.message.chat.id)
