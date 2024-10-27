@@ -35,6 +35,7 @@ from app.system.dataclasses import (
     ScoreFullDC
 )
 from app.system.models import (
+    TgModel,
     ThemeModel,
     TAModel,
     TypeModel,
@@ -744,6 +745,67 @@ class DBAccessor(BaseAccessor):
                         user_id=score.user_id,
                         rating=score.rating
                     ) for score in scores])             
+                return None
+        except sqlalchemy.exc.IntegrityError:
+            return None
+        except sqlalchemy.exc.ProgrammingError:
+            return None
+    
+    async def add_chat(self, chatid: int) -> str | None:
+        try:
+            async with self.app.database.session() as session:
+                chat = TgModel(chatid=chatid, state="INIT")
+                session.add(chat)
+                await session.commit()
+                return "Yeap"
+        except sqlalchemy.exc.IntegrityError:
+            return None
+        except sqlalchemy.exc.ProgrammingError:
+            return None
+    
+    async def get_chat(self, chatid: int) -> dict|None:
+        try:
+            async with self.app.database.session() as session:
+                query = (
+                    select(TgModel)
+                    .where(TgModel.chatid == chatid)
+                )
+                res = await session.scalars(query)
+                chat = res.one_or_none()
+                if chat:
+                    return {"userid":chat.userid,"state":chat.state}
+                return None
+        except sqlalchemy.exc.IntegrityError:
+            return None
+        except sqlalchemy.exc.ProgrammingError:
+            return None
+    
+    async def edit_chat_state(self, chatid: int,state:str) -> None:
+        try:
+            async with self.app.database.session() as session:
+                query = (
+                    update(TgModel)
+                    .where(TgModel.chatid == chatid)
+                    .values(state=state)
+                )
+                await session.execute(query)
+                await session.commit()
+                return None
+        except sqlalchemy.exc.IntegrityError:
+            return None
+        except sqlalchemy.exc.ProgrammingError:
+            return None
+
+    async def add_chat_user(self, chatid: int,userid:int) -> None:
+        try:
+            async with self.app.database.session() as session:
+                query = (
+                    update(TgModel)
+                    .where(TgModel.chatid == chatid)
+                    .values(userid=userid)
+                )
+                await session.execute(query)
+                await session.commit()
                 return None
         except sqlalchemy.exc.IntegrityError:
             return None

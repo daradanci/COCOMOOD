@@ -6,8 +6,8 @@ from typing import Optional
 import typing
 import asyncio
 
-from kts_backend.game.dataclasses import GameState, GameDC
-from kts_backend.store.bot.api.dataclasses import (
+from .dataclasses import DialogueState
+from app.store.bot.api.dataclasses import (
     CallbackQueryUpdate,
     MessageUpdate,
     InlineKeyboardMarkup,
@@ -20,7 +20,7 @@ from kts_backend.store.bot.api.dataclasses import (
 )
 
 if typing.TYPE_CHECKING:
-    from kts_backend.web.app import Application
+    from app.web.app import Application
 
 
 class Updater:
@@ -32,12 +32,7 @@ class Updater:
     async def start(self):
         print("manager init")
         self.is_running = True
-        # self.handle_task = asyncio.create_task(self.handle_update())
         self.handle_task = asyncio.gather(
-            self.handle_update(),
-            self.handle_update(),
-            self.handle_update(),
-            self.handle_update(),
             self.handle_update(),
             self.handle_update(),
         )
@@ -47,12 +42,10 @@ class Updater:
         self.handle_task.cancel()
 
     class Commands(Enum):
-        STARTGAME = "/startgame"
-        PARTICIPATE = "/participate"
-        FINISHGAME = "/finishgame"
-        GAMESTATS = "/gamestats"
-        LEFTGAME = "/leftgame"
-        PLAYERSTAT = "/playerstat"
+        START = "/start"
+        STARTREAD = "/startread"
+        READ = "/read"
+        
 
     async def handle_update(self):
         while self.is_running:
@@ -78,24 +71,18 @@ class Updater:
 
     async def handle_command(self, message: MessageUpdate):
         match message.message.text.split("@")[0]:
-            case self.Commands.STARTGAME.value:
-                await self.handle_start_game(message)
-            case self.Commands.PARTICIPATE.value:
-                await self.handle_participate(message)
-            case self.Commands.GAMESTATS.value:
-                await self.handle_game_stat(
+            case self.Commands.START.value:
+                await self.handle_start(message)
+            case self.Commands.STARTREAD.value:
+                await self.handle_start_read(message)
+            case self.Commands.READ.value:
+                await self.handle_read(
                     message.message.chat.id, message.message.message_thread_id
                 )
-            case self.Commands.FINISHGAME.value:
-                await self.handle_manual_finish_game(message)
-            case self.Commands.LEFTGAME.value:
-                await self.handle_leave(message)
-            case self.Commands.PLAYERSTAT.value:
-                await self.handle_playerstat(message)
             case _:
                 await self.handle_wrong_command(message)
 
-    async def handle_start_game(self, message: MessageUpdate):
+    async def handle_start(self, message: MessageUpdate):
         player = await self.app.store.game.get_player_by_id(
             message.message.from_user.id
         )
@@ -135,7 +122,7 @@ class Updater:
                 text=f"Новая игра не была создана, так как предыдущая игра не была закончена.",
             )
 
-    async def handle_participate(self, message: MessageUpdate):
+    async def handle_start_read(self, message: MessageUpdate):
         game = await self.app.store.game.return_current_game(message.message.chat.id)
         if game:
             if GameState(game.state) == GameState.PLAYER_REGISTRATION:
@@ -180,7 +167,7 @@ class Updater:
                 text=f"В данный момент в чате не проходит ни одной игры!",
             )
 
-    async def handle_start_initialization(
+    async def handle_read(
         self,
         game_id: int,
         chat_id: int,

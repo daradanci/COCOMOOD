@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields, EXCLUDE, post_load
 
-from kts_backend.store.bot.api.dataclasses import (
+from app.store.bot.api.dataclasses import (
     MessageUpdate,
     Message,
     Chat,

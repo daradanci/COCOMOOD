@@ -1,13 +1,13 @@
 from typing import Optional, TYPE_CHECKING
 from aiohttp import ClientSession
 
-from kts_backend.base.base_accessor import BaseAccessor
-from kts_backend.store.bot.bot.update_handler import Updater
+from app.base.base_accessor import BaseAccessor
+from app.store.bot.bot.update_handler import Updater
 
 TELEGRAM_HOST = "https://api.telegram.org"
 
 if TYPE_CHECKING:
-    from kts_backend.web.app import Application
+    from app.web.app import Application
 
 
 class BotApi(BaseAccessor):

@@ -376,3 +376,11 @@ class ReadTimeMangaModel(db):
             manga_id=self.manga_id,
             rating=self.rating,
         )
+    
+class TgModel(db):
+    __tablename__ = "tg"
+
+    userid = Column(Integer, ForeignKey("user.id", ondelete="cascade"),nullable = True )
+    chatid = Column(Integer,primary_key=True)
+    state = Column(String, nullable=False)
+    
