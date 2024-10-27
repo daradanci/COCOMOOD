@@ -6,7 +6,7 @@ from app.store.bot.bot.manager import BotApi
 from app.store.database.database import Database
 
 if typing.TYPE_CHECKING:
-    from kts_backend.web.app import Application
+    from app.web.app import Application
 
 
 class Store:
