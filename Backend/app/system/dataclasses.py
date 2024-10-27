@@ -69,7 +69,7 @@ class MangaTADC:
 class MangaAuthorDC:
     manga_id: int
     author_id: int
-    role:str
+    role: str
 
 
 @dataclass
@@ -92,7 +92,7 @@ class ReadTimeDC:
     id: int
     user_id: int
     start: datetime
-    end: datetime|None
+    end: datetime | None
 
 
 @dataclass
@@ -101,3 +101,24 @@ class ReadTimeMangaDC:
     readtime_id: int
     manga_id: int
     rating: int
+
+
+@dataclass
+class ReadTimeListDC:
+    data: list[ReadTimeDC] | None
+
+
+@dataclass
+class ReadTimeMangaListDC:
+    data: list[ReadTimeMangaDC] | None
+
+
+@dataclass
+class ReadTimeDetailsDC:
+    readtime: ReadTimeDC
+    read: list[ReadTimeMangaDC] | None
+
+
+@dataclass
+class ReadTimeDetailsListDC:
+    data: list[ReadTimeDetailsDC] | None

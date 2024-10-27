@@ -4,7 +4,7 @@ from hashlib import sha256
 from sqlalchemy import select, desc, update, delete, func
 from sqlalchemy.orm import selectinload
 import sqlalchemy.exc
-import datetime
+from datetime import datetime, timedelta
 
 from app.base.base_accessor import BaseAccessor
 from app.system.dataclasses import (
@@ -22,6 +22,10 @@ from app.system.dataclasses import (
     MangaDC,
     ScoreDC,
     StatusDC,
+    ReadTimeListDC,
+    ReadTimeDetailsDC,
+    ReadTimeMangaListDC,
+    ReadTimeDetailsListDC,
 )
 from app.system.models import (
     ThemeModel,
@@ -57,7 +61,7 @@ class DBAccessor(BaseAccessor):
                     id=user.id,
                     login=user.login,
                     name=user.name,
-                    tg=user.tg,                    
+                    tg=user.tg,
                     password=user.password,
                     registration_date=user.reregistration_date,
                     book_plan=user.book_plan,
@@ -74,7 +78,7 @@ class DBAccessor(BaseAccessor):
                     id=user.id,
                     login=user.login,
                     name=user.name,
-                    tg=user.tg, 
+                    tg=user.tg,
                     password=user.password,
                     registration_date=user.reregistration_date,
                     book_plan=user.book_plan,
@@ -91,13 +95,13 @@ class DBAccessor(BaseAccessor):
                     id=user.id,
                     login=user.login,
                     name=user.name,
-                    tg=user.tg, 
+                    tg=user.tg,
                     password=user.password,
                     registration_date=user.reregistration_date,
                     book_plan=user.book_plan,
                 )
             return None
-    
+
     async def create_user(
         self, login: str, password: str, name: str
     ) -> UserforRequest | None:
@@ -120,16 +124,14 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    
-    async def add_tg_id(self, login:str,tgid:int)->UserDC|None:
+
+    async def add_tg_id(self, login: str, tgid: int) -> UserDC | None:
         try:
             async with self.app.database.session() as session:
                 query = (
                     update(UserModel)
                     .where(UserModel.login == login)
-                    .values(
-                        tgid=tgid
-                    )
+                    .values(tgid=tgid)
                 )
                 await session.execute(query)
                 await session.commit()
@@ -139,18 +141,14 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-        
-    
-    
-    async def add_target(self, tgid:int,target:int)->UserDC|None:
+
+    async def add_target(self, tgid: int, target: int) -> UserDC | None:
         try:
             async with self.app.database.session() as session:
                 query = (
                     update(UserModel)
                     .where(UserModel.tgid == tgid)
-                    .values(
-                        book_plan=target
-                    )
+                    .values(book_plan=target)
                 )
                 await session.execute(query)
                 await session.commit()
@@ -160,9 +158,8 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    
 
-    async def add_theme(self,name:str)->ThemeDC|None:
+    async def add_theme(self, name: str) -> ThemeDC | None:
         try:
             async with self.app.database.session() as session:
                 theme = ThemeModel(
@@ -175,7 +172,8 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def add_ta(self,name:str)->TADC|None:
+
+    async def add_ta(self, name: str) -> TADC | None:
         try:
             async with self.app.database.session() as session:
                 ta = TAModel(
@@ -188,7 +186,8 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def add_author(self,name:str)->AuthorDC|None:
+
+    async def add_author(self, name: str) -> AuthorDC | None:
         try:
             async with self.app.database.session() as session:
                 author = AuthorModel(
@@ -201,7 +200,8 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def add_genre(self,name:str)->GenreDC|None:
+
+    async def add_genre(self, name: str) -> GenreDC | None:
         try:
             async with self.app.database.session() as session:
                 genre = GenreModel(
@@ -214,7 +214,8 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def add_type(self,name:str)->TypeDC|None:
+
+    async def add_type(self, name: str) -> TypeDC | None:
         try:
             async with self.app.database.session() as session:
                 type_ = TypeModel(
@@ -227,7 +228,8 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def add_status(self,name:str)->StatusDC|None:
+
+    async def add_status(self, name: str) -> StatusDC | None:
         try:
             async with self.app.database.session() as session:
                 status = StatusModel(
@@ -240,7 +242,18 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def add_manga(self,title:str,type_id:int,status_id:int,image:str,link:int,score:float|None=None,volumes:int|None=None,chapters:int|None=None)->MangaDC|None:
+
+    async def add_manga(
+        self,
+        title: str,
+        type_id: int,
+        status_id: int,
+        image: str,
+        link: int,
+        score: float | None = None,
+        volumes: int | None = None,
+        chapters: int | None = None,
+    ) -> MangaDC | None:
         try:
             async with self.app.database.session() as session:
                 manga = MangaModel(
@@ -260,13 +273,13 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def add_mangatheme(self,manga_id:int,theme_id:int)->MangaThemeDC|None:
+
+    async def add_mangatheme(
+        self, manga_id: int, theme_id: int
+    ) -> MangaThemeDC | None:
         try:
             async with self.app.database.session() as session:
-                mt = MangaThemeModel(
-                    manga_id=manga_id,
-                    theme_id=theme_id
-                )
+                mt = MangaThemeModel(manga_id=manga_id, theme_id=theme_id)
                 session.add(mt)
                 await session.commit()
                 return mt.to_DC()
@@ -274,13 +287,11 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def add_mangata(self,manga_id:int,ta_id:int)->MangaTADC|None:
+
+    async def add_mangata(self, manga_id: int, ta_id: int) -> MangaTADC | None:
         try:
             async with self.app.database.session() as session:
-                mt = MangaTAModel(
-                    manga_id=manga_id,
-                    ta_id=ta_id
-                )
+                mt = MangaTAModel(manga_id=manga_id, ta_id=ta_id)
                 session.add(mt)
                 await session.commit()
                 return mt.to_DC()
@@ -288,13 +299,14 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def add_mangaauthor(self,manga_id:int,author_id:int,role:str)->MangaAuthorDC|None:
+
+    async def add_mangaauthor(
+        self, manga_id: int, author_id: int, role: str
+    ) -> MangaAuthorDC | None:
         try:
             async with self.app.database.session() as session:
                 ma = MangaAuthorModel(
-                    manga_id=manga_id,
-                    author_id=author_id,
-                    role=role
+                    manga_id=manga_id, author_id=author_id, role=role
                 )
                 session.add(ma)
                 await session.commit()
@@ -303,13 +315,13 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def add_mangagenre(self,manga_id:int,genre_id:int)->MangaGenreDC|None:
+
+    async def add_mangagenre(
+        self, manga_id: int, genre_id: int
+    ) -> MangaGenreDC | None:
         try:
             async with self.app.database.session() as session:
-                mg = MangaGenreModel(
-                    manga_id=manga_id,
-                    genre_id=genre_id
-                )
+                mg = MangaGenreModel(manga_id=manga_id, genre_id=genre_id)
                 session.add(mg)
                 await session.commit()
                 return mg.to_DC()
@@ -317,13 +329,14 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def add_score(self,manga_id:int, user_id:int,score:int)->ScoreDC|None:
+
+    async def add_score(
+        self, manga_id: int, user_id: int, score: int
+    ) -> ScoreDC | None:
         try:
             async with self.app.database.session() as session:
                 score = ScoreModel(
-                    manga_id=manga_id,
-                    user_id=user_id,
-                    score=score
+                    manga_id=manga_id, user_id=user_id, score=score
                 )
                 session.add(score)
                 await session.commit()
@@ -332,13 +345,11 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def add_readtime(self,user_id:int)->ReadTimeDC|None:
+
+    async def add_readtime(self, user_id: int) -> ReadTimeDC | None:
         try:
             async with self.app.database.session() as session:
-                rt = ReadTimeModel(
-                    user_id=user_id,
-                    start=datetime.now()
-                )
+                rt = ReadTimeModel(user_id=user_id, start=datetime.now())
                 session.add(rt)
                 await session.commit()
                 return rt.to_DC()
@@ -346,15 +357,14 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def add_readtime_end(self,id:int)->None:
+
+    async def add_readtime_end(self, id: int) -> None:
         try:
             async with self.app.database.session() as session:
                 query = (
                     update(ReadTimeModel)
-                    .where(ReadTimeModel.id == id )
-                    .values(
-                        end=datetime.now()
-                    )
+                    .where(ReadTimeModel.id == id)
+                    .values(end=datetime.now())
                 )
                 await session.execute(query)
                 await session.commit()
@@ -363,10 +373,16 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def get_last_readtime(self,user_id:int)->ReadTimeDC|None:
+
+    async def get_last_readtime(self, user_id: int) -> ReadTimeDC | None:
         try:
             async with self.app.database.session() as session:
-                query = select(ReadTimeModel).where(ReadTimeModel.user_id == user_id).desc().limit(1)
+                query = (
+                    select(ReadTimeModel)
+                    .where(ReadTimeModel.user_id == user_id)
+                    .desc()
+                    .limit(1)
+                )
                 res = await session.scalars(query)
                 readtime = res.one_or_none()
                 if readtime:
@@ -374,14 +390,15 @@ class DBAccessor(BaseAccessor):
                         id=readtime.id,
                         user_id=readtime.user_id,
                         start=readtime.start,
-                        end=readtime.end
+                        end=readtime.end,
                     )
                 return None
         except sqlalchemy.exc.IntegrityError:
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def del_readtime(self,id:int)->None:
+
+    async def del_readtime(self, id: int) -> None:
         try:
             async with self.app.database.session() as session:
                 query = delete(ReadTimeModel).where(ReadTimeModel.id == id)
@@ -392,13 +409,14 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def add_readtimemanga(self,read_id:int,manga_id:int,rating:int)->ReadTimeMangaDC|None:
+
+    async def add_readtimemanga(
+        self, read_id: int, manga_id: int, rating: int
+    ) -> ReadTimeMangaDC | None:
         try:
             async with self.app.database.session() as session:
                 rt = ReadTimeMangaModel(
-                    readtime_id=read_id,
-                    manga_id=manga_id,
-                    rating=rating
+                    readtime_id=read_id, manga_id=manga_id, rating=rating
                 )
                 session.add(rt)
                 await session.commit()
@@ -407,23 +425,184 @@ class DBAccessor(BaseAccessor):
             return None
         except sqlalchemy.exc.ProgrammingError:
             return None
-    async def change_score(self,)->None:
-        pass
-    async def get_last_30_readtime(self,)->None:
-        pass
-    async def get_completed_books(self,)->None:
-        pass
-    async def get_all_read_info_by_user_id(self,)->None:
-        pass
-    async def get_all_read_time_by_user_id(self,)->None:
-        pass
-    async def get_all_read_time_by_user_id_within_week(self,)->None:
-        pass
-    async def get_mangainfo(self,)->None:
-        pass
 
+    async def change_score(
+        self, user_id: int, manga_id: int, rating: int
+    ) -> None:
+        try:
+            async with self.app.database.session() as session:
+                query = (
+                    update(ScoreModel)
+                    .where(
+                        (ScoreModel.user_id == user_id)
+                        & (ScoreModel.manga_id == manga_id)
+                    )
+                    .values(rating=rating)
+                )
+                await session.execute(query)
+                await session.commit()
+                return None
+        except sqlalchemy.exc.IntegrityError:
+            return None
+        except sqlalchemy.exc.ProgrammingError:
+            return None
 
-
-    
-
+    async def get_last_30_readtime(self, user_id: int) -> ReadTimeListDC | None:
+        try:
+            async with self.app.database.session() as session:
+                query = (
+                    select(ReadTimeModel)
+                    .where(ReadTimeModel.user_id == user_id)
+                    .desc()
+                    .limit(30)
+                )
+                res = await session.scalars(query)
+                readtime = res.all()
+                if readtime:
+                    return ReadTimeListDC(
+                        data=[
+                            ReadTimeDC(
+                                id=readtime_instance.id,
+                                user_id=readtime_instance.user_id,
+                                start=readtime_instance.start,
+                                end=readtime_instance.end,
+                            )
+                            for readtime_instance in readtime[-1:0:-1]
+                        ].append(
+                            ReadTimeDC(
+                                id=readtime[0].id,
+                                user_id=readtime[0].user_id,
+                                start=readtime[0].start,
+                                end=readtime[0].end,
+                            )
+                        )
+                    )
+                return None
+        except sqlalchemy.exc.IntegrityError:
+            return None
+        except sqlalchemy.exc.ProgrammingError:
+            return None
         
+
+    async def get_completed_books(self, user_id: int) -> int | None:
+        try:
+            async with self.app.database.session() as session:
+                query = (
+                    select(func.count(ScoreModel.rating))
+                    .where(ScoreModel.user_id == user_id)
+                    .group_by(ScoreModel.user_id)
+                )
+                res = await session.scalars(query)
+                count = res.one_or_none()
+                if count:
+                    return count
+                return None
+        except sqlalchemy.exc.IntegrityError:
+            return None
+        except sqlalchemy.exc.ProgrammingError:
+            return None
+        
+
+    async def get_all_read_info_by_user_id(
+        self, user_id: int
+    ) -> ReadTimeDetailsListDC | None:
+        try:
+            async with self.app.database.session() as session:
+                query = (
+                    select(ReadTimeModel)
+                    .where(ReadTimeModel.user_id == user_id)
+                    .options(selectinload(ReadTimeModel.readtimedetails))
+                )
+                res = await session.scalars(query)
+                read_all = res.all()
+                if read_all:
+                    return ReadTimeDetailsListDC(
+                        data=[
+                            ReadTimeDetailsDC(
+                                readtime=ReadTimeDC(
+                                    id=read_instance.id,
+                                    user_id=read_instance.user_id,
+                                    start=read_instance.start,
+                                    end=read_instance.end,
+                                ),
+                                read=[
+                                    ReadTimeMangaDC(
+                                        readtime_id=manga_instance.readtime_id,
+                                        manga_id=manga_instance.manga_id,
+                                        rating=manga_instance.rating,
+                                    )
+                                    for manga_instance in read_instance.readtimedetails
+                                ],
+                            )
+                            for read_instance in read_all
+                        ]
+                    )
+                return None
+        except sqlalchemy.exc.IntegrityError:
+            return None
+        except sqlalchemy.exc.ProgrammingError:
+            return None
+        
+
+    async def get_all_read_time_by_user_id(
+        self,user_id:int,
+    ) -> None:
+        try:
+            async with self.app.database.session() as session:
+                query = (
+                    select(ReadTimeModel)
+                    .where(ReadTimeModel.user_id == user_id)
+                )
+                res = await session.scalars(query)
+                readtime = res.all()
+                if readtime:
+                    return ReadTimeListDC(
+                        data=[
+                            ReadTimeDC(
+                                id=readtime_instance.id,
+                                user_id=readtime_instance.user_id,
+                                start=readtime_instance.start,
+                                end=readtime_instance.end,
+                            )
+                            for readtime_instance in readtime
+                        ]
+                    )
+                return None
+        except sqlalchemy.exc.IntegrityError:
+            return None
+        except sqlalchemy.exc.ProgrammingError:
+            return None
+
+    async def get_all_read_time_by_user_id_within_week(
+        self,user_id:int,
+    ) -> None:
+        try:
+            async with self.app.database.session() as session:
+                query = (
+                    select(ReadTimeModel)
+                    .where((ReadTimeModel.user_id == user_id)&(ReadTimeModel.start>datetime.now()-timedelta(days=7)))
+                )
+                res = await session.scalars(query)
+                readtime = res.all()
+                if readtime:
+                    return ReadTimeListDC(
+                        data=[
+                            ReadTimeDC(
+                                id=readtime_instance.id,
+                                user_id=readtime_instance.user_id,
+                                start=readtime_instance.start,
+                                end=readtime_instance.end,
+                            )
+                            for readtime_instance in readtime
+                        ]
+                    )
+                return None
+        except sqlalchemy.exc.IntegrityError:
+            return None
+        except sqlalchemy.exc.ProgrammingError:
+            return None
+
+    async def get_mangainfo(
+        self,
+    ) -> None:
+        pass

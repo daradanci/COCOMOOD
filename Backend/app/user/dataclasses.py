@@ -19,8 +19,8 @@ class UserDC:
     name: str
     tg: int
     password: str
-    registration_date : datetime | None
-    book_plan : int |None
+    registration_date: datetime | None
+    book_plan: int | None
 
     def is_password_valid(self, password: str) -> bool:
         return self.password == sha256(password.encode()).hexdigest()

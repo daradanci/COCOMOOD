@@ -13,7 +13,6 @@ class UserModel(db):
     tgid = Column(Integer, nullable=True)
     registration_date = Column(DateTime, nullable=True)
     book_plan = Column(Integer, nullable=True)
-    
 
     # ссылка на ребенка
     user_score = relationship(
