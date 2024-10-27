@@ -647,10 +647,10 @@ class DBAccessor(BaseAccessor):
                     select(ThemeModel).filter(ThemeModel.id.in_(themes))
                 )
                 res = await session.scalars(query)
-                themes = res.all()
-                if themes:
+                theme_res = res.all()
+                if theme_res:
                     return ThemeListDC(
-                        data=[theme.to_DC()for theme in themes]
+                        data=[theme.to_DC()for theme in theme_res]
                     )
                 return None
         except sqlalchemy.exc.IntegrityError:
@@ -664,13 +664,13 @@ class DBAccessor(BaseAccessor):
         try:
             async with self.app.database.session() as session:
                 query = (
-                    select(ThemeModel).filter(ThemeModel.id.in_(themes))
+                    select(TAModel).filter(TAModel.id.in_(tas))
                 )
                 res = await session.scalars(query)
-                themes = res.all()
-                if themes:
-                    return ThemeListDC(
-                        data=[theme.to_DC()for theme in themes]
+                ta_res = res.all()
+                if ta_res:
+                    return TAListDC(
+                        data=[ta.to_DC()for ta in ta_res]
                     )
                 return None
         except sqlalchemy.exc.IntegrityError:
@@ -683,13 +683,13 @@ class DBAccessor(BaseAccessor):
         try:
             async with self.app.database.session() as session:
                 query = (
-                    select(ThemeModel).filter(ThemeModel.id.in_(themes))
+                    select(AuthorModel).filter(AuthorModel.id.in_(authors))
                 )
                 res = await session.scalars(query)
-                themes = res.all()
-                if themes:
+                author_res = res.all()
+                if author_res:
                     return ThemeListDC(
-                        data=[theme.to_DC()for theme in themes]
+                        data=[author.to_DC()for author in author_res]
                     )
                 return None
         except sqlalchemy.exc.IntegrityError:
@@ -702,13 +702,13 @@ class DBAccessor(BaseAccessor):
         try:
             async with self.app.database.session() as session:
                 query = (
-                    select(ThemeModel).filter(ThemeModel.id.in_(themes))
+                    select(GenreModel).filter(GenreModel.id.in_(genres))
                 )
                 res = await session.scalars(query)
-                themes = res.all()
-                if themes:
+                genre_res = res.all()
+                if genre_res:
                     return ThemeListDC(
-                        data=[theme.to_DC()for theme in themes]
+                        data=[genre.to_DC()for genre in genre_res]
                     )
                 return None
         except sqlalchemy.exc.IntegrityError:
