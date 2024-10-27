@@ -14,10 +14,11 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 // Import Bootstrap and BootstrapVue CSS files (order is important)
 // import 'bootstrap/dist/css/bootstrap.css'
 // import 'bootstrap-vue/dist/bootstrap-vue.css'
-
+const pinia = createPinia()
 const app = createApp(App)
 app.use(CanvasJSChart)
 app.use(createPinia())
 
+app.use(pinia)
 app.use(router)
 app.mount('#app')
