@@ -5,7 +5,7 @@
   "homepage": "https://daradanci.github.io/COCOMOOD/",
   "scripts": {
     "dev": "cross-env VITE_DISABLE_ESLINT_PLUGIN=true vite",
-    "build": "cross-env VITE_DISABLE_ESLINT_PLUGIN=true vite",
+    "build": "cross-env VITE_DISABLE_ESLINT_PLUGIN=true vite build",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
