@@ -20,6 +20,7 @@
     "@canvasjs/charts": "^3.10.13",
     "@canvasjs/vue-charts": "^1.0.4",
     "@vue/cli-service": "^5.0.8",
+    "axios": "^1.8.2",
     "bootstrap": "^5.3.3",
     "js-cookie": "^3.0.5",
     "pinia": "^2.2.4",
