@@ -3,7 +3,7 @@ name: Deploy Vue App
 on:
   push:
     branches:
-      - main  # Деплой с ветки main
+      - main
 
 jobs:
   deploy:
@@ -12,17 +12,27 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 1  # Скачиваем только последний коммит
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('Frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: npm install
-        working-directory: Frontend  # Переключаемся в папку Frontend
+        run: npm ci
+        working-directory: Frontend
 
       - name: Build project
         run: npm run build
-        working-directory: Frontend  # Билдим в папке Frontend
+        working-directory: Frontend
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./Frontend/dist  # Указываем путь к папке сборки
+          publish_dir: ./Frontend/dist
