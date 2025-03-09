@@ -1,0 +1,29 @@
+name: Deploy Vue App
+
+on:
+  push:
+    branches:
+      - main  # Деплой с ветки main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Cd directory
+        uses: cd Frontend
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./dist
