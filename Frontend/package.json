@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.0.0",
   "private": true,
-  "homepage": "https://Eaglise.github.io/COCOMOOD/",
+  "homepage": "https://daradanci.github.io/COCOMOOD/",
   "scripts": {
     "dev": "cross-env VITE_DISABLE_ESLINT_PLUGIN=true vite",
     "build": "cross-env VITE_DISABLE_ESLINT_PLUGIN=true vite",
