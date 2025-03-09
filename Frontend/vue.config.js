@@ -1,5 +1,4 @@
-// vue.config.js
-module.exports = {
+module.exports = process.env.NODE_ENV === 'development' ? {
   devServer: {
     proxy: {
       '/': {
@@ -10,4 +9,4 @@ module.exports = {
       },
     },
   },
-}
+} : {};
