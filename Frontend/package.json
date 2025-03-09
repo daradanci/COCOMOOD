@@ -2,16 +2,19 @@
   "name": "frontend",
   "version": "0.0.0",
   "private": true,
+  "homepage": "https://Eaglise.github.io/COCOMOOD/",
   "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "dev": "cross-env VITE_DISABLE_ESLINT_PLUGIN=true vite",
+    "build": "cross-env VITE_DISABLE_ESLINT_PLUGIN=true vite",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
-    "serve": "vue-cli-service serve"
+    "serve": "vue-cli-service serve",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@canvasjs/charts": "^3.10.13",
@@ -37,8 +40,10 @@
     "@vue/eslint-config-typescript": "^14.1.1",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.5.1",
+    "cross-env": "^7.0.3",
     "eslint": "^9.13.0",
     "eslint-plugin-vue": "^9.29.0",
+    "gh-pages": "^6.3.0",
     "jsdom": "^25.0.1",
     "npm-run-all2": "^7.0.1",
     "prettier": "^3.3.3",

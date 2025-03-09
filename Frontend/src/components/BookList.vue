@@ -32,18 +32,19 @@ export default {
   setup() {
     const mainStore = useMainStore()
     mainStore.readBook({
-      image: '../src/assets/157897l.jpg', // Замените на реальный путь к изображению
+      image: new URL('@/assets/157897l.jpg', import.meta.url).href,
       title: 'Берсерк Том 1',
       author: 'Кэнтаро Миура',
       rating: 8,
     })
 
     mainStore.readBook({
-      image: '../src/assets/157931l.jpg', // Замените на реальный путь к изображению
+      image: new URL('@/assets/157931l.jpg', import.meta.url).href,
       title: 'Бересерк Том 6',
       author: 'Кэнтаро Миура',
       rating: 8.6,
     })
+
     // Доступ к состоянию и методам
     // const booksRead = mainStore.getBooksRead // для геттера
     const books1 = mainStore.getBooksRead // для геттера
