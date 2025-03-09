@@ -13,17 +13,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Cd directory
-        uses: cd Frontend
-
       - name: Install dependencies
         run: npm install
+        working-directory: Frontend  # Переключаемся в папку Frontend
 
       - name: Build project
         run: npm run build
+        working-directory: Frontend  # Билдим в папке Frontend
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./dist
+          publish_dir: ./Frontend/dist  # Указываем путь к папке сборки
